@@ -1,10 +1,25 @@
-export const createMenuTemplate = () => {
+const createFilterMorkup = (filter) => {
+  const {name, quantity} = filter;
+
+  return (`
+  <a href="#watchlist" class="main-navigation__item">${name}<span class="main-navigation__item-count">${quantity}</span></a>
+  `);
+};
+
+const createFiltersMorkup = (filters) => {
+  return filters.map((filter) => createFilterMorkup(filter)).join(``);
+};
+
+export const createMenuTemplate = (filters) => {
+
+  const filtersMorkup = createFiltersMorkup(filters);
+
   return (`
   <nav class="main-navigation">
     <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-    <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">13</span></a>
-    <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">4</span></a>
-    <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">8</span></a>
+
+    ${filtersMorkup}
+
     <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
   </nav>
 
