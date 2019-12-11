@@ -1,10 +1,11 @@
 import {createFilmCardTemplate} from './components/film';
-import {createFilmDetailsTemplate} from './components/details';
+import {createFilmDetailsTemplate} from './components/film-details';
 import {createMenuTemplate} from './components/menu';
 import {createFilmsContentTemplate} from './components/films-content';
 import {createShowMoreButtonTemplate} from './components/show-more-button';
 import {createUserRankTemplate} from './components/user-rank';
 
+import {createFilmDetailsMock} from './mock/film-details';
 import {createFilmCardMock, createFilmCardMocks} from './mock/film';
 import {createFilterMock} from './mock/filter';
 
