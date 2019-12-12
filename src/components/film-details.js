@@ -1,4 +1,7 @@
-export const createFilmDetailsTemplate = () => {
+export const createFilmDetailsTemplate = (details) => {
+
+  const {cover, filmName, originalFilmName, rating, userEvalutaion, director, scenarists, actors,releaseDate, duration, country, genre, description, ageRating} = details;
+
   return (`
     <section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -8,27 +11,27 @@ export const createFilmDetailsTemplate = () => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+              <img class="film-details__poster-img" src="${cover}" alt="">
 
-              <p class="film-details__age">18+</p>
+              <p class="film-details__age">${ageRating}+</p>
             </div>
 
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
-                  <h3 class="film-details__title">The Great Flamarion</h3>
-                  <p class="film-details__title-original">Original: The Great Flamarion</p>
+                  <h3 class="film-details__title">${filmName}</h3>
+                  <p class="film-details__title-original">Original: ${originalFilmName}</p>
                 </div>
 
                 <div class="film-details__rating">
-                  <p class="film-details__total-rating">8.9</p>
+                  <p class="film-details__total-rating">${rating}</p>
                 </div>
               </div>
 
               <table class="film-details__table">
                 <tr class="film-details__row">
                   <td class="film-details__term">Director</td>
-                  <td class="film-details__cell">Anthony Mann</td>
+                  <td class="film-details__cell">${director}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
