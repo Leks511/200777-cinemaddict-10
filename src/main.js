@@ -35,7 +35,9 @@ render(mainFilmsContainerElement, createFilmCardTemplate(filmMockData), `beforee
 
 render(mainFilmsContainerElement, createShowMoreButtonTemplate(), `afterend`);
 
-
+const footerElement = document.querySelector(`.footer`);
+const filmDetailsMock = createFilmDetailsMock();
+render(footerElement, createFilmDetailsTemplate(filmDetailsMock), `afterend`);
 
 // const topRatedFilmsContainerElement = filmsContentElement.querySelectorAll(`.films-list--extra`)[0].querySelector(`.films-list__container`);
 // const MostCommentedFilmsContainerElement = filmsContentElement.querySelectorAll(`.films-list--extra`)[1].querySelector(`.films-list__container`);

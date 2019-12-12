@@ -8,10 +8,14 @@ const getRandomArrayItem = (array) => {
   return array[randomIndex];
 };
 
+const getRandomArrayItems = (array) => {
+  return array.filter(() => Math.random() > 0.5);
+};
+
 const getRandomDescription = (string) => {
   return string.split(`.`)
     .filter(() => Math.random() > 0.5)
     .slice(0, getRandomIntegerNumber(1, 3));
 };
 
-export {getRandomArrayItem, getRandomIntegerNumber, getRandomDescription};
+export {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription};

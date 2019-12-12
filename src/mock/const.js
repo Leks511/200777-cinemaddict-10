@@ -48,7 +48,7 @@ const DIRECTORS = [
   `Nobody`
 ];
 
-const SCENARISTS = [
+const WRITERS = [
   `Lina`,
   `Paul`,
   `Nick`,
@@ -76,4 +76,4 @@ const COUNTRIES = [
   `Austria`
 ];
 
-export {FILM_NAMES, GENRES, POSTERS, DESCRIPTION, DIRECTORS, SCENARISTS, ACTORS, COUNTRIES};
+export {FILM_NAMES, GENRES, POSTERS, DESCRIPTION, DIRECTORS, WRITERS, ACTORS, COUNTRIES};

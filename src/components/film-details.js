@@ -1,6 +1,16 @@
+const createGenresMorkup = (genres) => {
+  return genres.map((genre) => {
+    return (`
+    <span class="film-details__genre">${genre}</span>
+    `);
+  }).join(``);
+};
+
 export const createFilmDetailsTemplate = (details) => {
 
-  const {cover, filmName, originalFilmName, rating, userEvalutaion, director, scenarists, actors,releaseDate, duration, country, genre, description, ageRating} = details;
+  const {cover, filmName, originalFilmName, rating, userEvalutaion, director, writers, actors, releaseDate, duration, country, genres, description, ageRating} = details;
+
+  const genresMorkup = createGenresMorkup(genres);
 
   return (`
     <section class="film-details">
@@ -11,7 +21,7 @@ export const createFilmDetailsTemplate = (details) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="${cover}" alt="">
+              <img class="film-details__poster-img" src="images/posters/${cover}" alt="">
 
               <p class="film-details__age">${ageRating}+</p>
             </div>
@@ -35,19 +45,19 @@ export const createFilmDetailsTemplate = (details) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+                  <td class="film-details__cell">${writers}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+                  <td class="film-details__cell">${actors}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">30 March 1945</td>
+                  <td class="film-details__cell">${releaseDate}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">1h 18m</td>
+                  <td class="film-details__cell">${duration}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
@@ -56,9 +66,8 @@ export const createFilmDetailsTemplate = (details) => {
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">Drama</span>
-                    <span class="film-details__genre">Film-Noir</span>
-                    <span class="film-details__genre">Mystery</span></td>
+                    ${genresMorkup}
+                  </td>
                 </tr>
               </table>
 
@@ -88,11 +97,11 @@ export const createFilmDetailsTemplate = (details) => {
 
             <div class="film-details__user-score">
               <div class="film-details__user-rating-poster">
-                <img src="./images/posters/the-great-flamarion.jpg" alt="film-poster" class="film-details__user-rating-img">
+                <img src="./images/posters/${cover}" alt="film-poster" class="film-details__user-rating-img">
               </div>
 
               <section class="film-details__user-rating-inner">
-                <h3 class="film-details__user-rating-title">The Great Flamarion</h3>
+                <h3 class="film-details__user-rating-title">${filmName}</h3>
 
                 <p class="film-details__user-rating-feelings">How you feel it?</p>
 
@@ -123,7 +132,6 @@ export const createFilmDetailsTemplate = (details) => {
 
                   <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="9" id="rating-9" checked>
                   <label class="film-details__user-rating-label" for="rating-9">9</label>
-
                 </div>
               </section>
             </div>

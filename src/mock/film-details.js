@@ -1,5 +1,5 @@
-import {FILM_NAMES, GENRES, POSTERS, DESCRIPTION, DIRECTORS, SCENARISTS, ACTORS, COUNTRIES} from './const';
-import {getRandomArrayItem, getRandomIntegerNumber, getRandomDescription} from '../util';
+import {FILM_NAMES, GENRES, POSTERS, DESCRIPTION, DIRECTORS, WRITERS, ACTORS, COUNTRIES} from './const';
+import {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription} from '../util';
 
 export const createFilmDetailsMock = () => {
   return {
@@ -9,12 +9,12 @@ export const createFilmDetailsMock = () => {
     rating: getRandomIntegerNumber(0, 5),
     userEvalutaion: getRandomIntegerNumber(0, 5),
     director: getRandomArrayItem(DIRECTORS),
-    scenarists: getRandomArrayItem(SCENARISTS),
-    actors: getRandomArrayItem(ACTORS),
+    writers: getRandomArrayItems(WRITERS),
+    actors: getRandomArrayItems(ACTORS),
     releaseDate: `somedate`,
     duration: `someduration`,
     country: getRandomArrayItem(COUNTRIES),
-    genre: getRandomArrayItem(GENRES),
+    genres: getRandomArrayItems(GENRES),
     description: getRandomDescription(DESCRIPTION),
     ageRating: getRandomIntegerNumber(0, 100)
   };
