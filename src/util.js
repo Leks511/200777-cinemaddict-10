@@ -18,4 +18,10 @@ const getRandomDescription = (string) => {
     .slice(0, getRandomIntegerNumber(1, 3));
 };
 
-export {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription};
+const getRandomDuration = () => {
+  const targetDate = new Date();
+
+  return `${targetDate.getHours()}h ${targetDate.getMinutes()}m`
+}
+
+export {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription, getRandomDuration};

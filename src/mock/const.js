@@ -76,4 +76,18 @@ const COUNTRIES = [
   `Austria`
 ];
 
-export {FILM_NAMES, GENRES, POSTERS, DESCRIPTION, DIRECTORS, WRITERS, ACTORS, COUNTRIES};
+const MONTHS = [
+  `Январь`,
+  `Февраль`,
+  `Март`,
+  `Апрель`,
+  `Май`,
+  `Июнь`,
+  `Июль`,
+  `Август`,
+  `Сентябрь`,
+  `Ноябрь`,
+  `Декабрь`,
+];
+
+export {FILM_NAMES, GENRES, POSTERS, DESCRIPTION, DIRECTORS, WRITERS, ACTORS, COUNTRIES, MONTHS};
