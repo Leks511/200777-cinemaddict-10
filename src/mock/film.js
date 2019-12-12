@@ -1,8 +1,6 @@
 import {FILM_NAMES, GENRES, POSTERS, DESCRIPTION} from './const';
 import {getRandomArrayItem, getRandomIntegerNumber, getRandomDescription} from '../util';
 
-
-
 const getRandomDate = () => {
   return new Date().getMinutes();
 };

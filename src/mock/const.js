@@ -48,18 +48,6 @@ const REGGISEURS = [
   `Nobody`
 ];
 
-const REGGISEURS = [
-  `Martin`,
-  `Max`,
-  `Adam`,
-  `Alex`,
-  `John`,
-  `July`,
-  `Someby`,
-  `Anybody`,
-  `Nobody`
-];
-
 const SCENARISTS = [
   `Lina`,
   `Paul`,
