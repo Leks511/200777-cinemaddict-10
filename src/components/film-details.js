@@ -5,7 +5,7 @@ export const createFilmDetailsTemplate = (details) => {
   return (`
     <section class="film-details">
       <form class="film-details__inner" action="" method="get">
-        <div class="form-details__top-container">
+        <label class="form-details__top-container">
           <div class="film-details__close">
             <button class="film-details__close-btn" type="button">close</button>
           </div>
@@ -78,7 +78,7 @@ export const createFilmDetailsTemplate = (details) => {
             <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
-        </div>
+        </label>
 
         <div class="form-details__middle-container">
           <section class="film-details__user-rating-wrap">
