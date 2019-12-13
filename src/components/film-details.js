@@ -8,7 +8,7 @@ const createGenresMorkup = (genres) => {
 
 export const createFilmDetailsTemplate = (details) => {
 
-  const {cover, filmName, originalFilmName, rating, userEvalutaion, director, writers, actors, releaseDate, duration, country, genres, description, ageRating} = details;
+  const {cover, filmName, originalFilmName, rating, director, writers, actors, releaseDate, duration, country, genres, description, ageRating} = details;
 
   const genresMorkup = createGenresMorkup(genres);
 

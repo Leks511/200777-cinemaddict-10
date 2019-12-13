@@ -21,7 +21,7 @@ const getRandomDescription = (string) => {
 const getRandomDuration = () => {
   const targetDate = new Date();
 
-  return `${targetDate.getHours()}h ${targetDate.getMinutes()}m`
-}
+  return `${targetDate.getHours()}h ${targetDate.getMinutes()}m`;
+};
 
 export {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription, getRandomDuration};
