@@ -4,6 +4,8 @@ import {createMenuTemplate} from './components/menu';
 import {createFilmsContentTemplate} from './components/films-content';
 import {createShowMoreButtonTemplate} from './components/show-more-button';
 import {createUserRankTemplate} from './components/user-rank';
+import {createTopRatedFilmsList} from './components/top-rated-films';
+import {createMostCommentedFilmsList} from './components/most-commented-films';
 
 // Получим данные для их отображения в компонентах
 import {createFilmDetailsMock} from './mock/film-details';
@@ -33,7 +35,7 @@ render(mainElement, createMenuTemplate(filters), `beforeend`);
 // Отобразим секцию с фильмами
 render(mainElement, createFilmsContentTemplate(), `beforeend`);
 
-// Найдём элемент для списка фильмов
+// Найдём секцию с фильмами и отобразим туда все фильмы
 const filmsContentElement = document.querySelector(`.films`);
 const mainFilmsContainerElement = filmsContentElement.querySelector(`.films-list .films-list__container`);
 
@@ -60,16 +62,50 @@ showMoreButton.addEventListener(`click`, () => {
   }
 });
 
-
-
 const footerElement = document.querySelector(`.footer`);
 
 // Временно скроем всплывающее окно
 const filmDetailsMock = createFilmDetailsMock();
 //render(footerElement, createFilmDetailsTemplate(filmDetailsMock), `afterend`);
 
-const topRatedFilmsContainerElement = filmsContentElement.querySelectorAll(`.films-list--extra`)[0].querySelector(`.films-list__container`);
-const MostCommentedFilmsContainerElement = filmsContentElement.querySelectorAll(`.films-list--extra`)[1].querySelector(`.films-list__container`);
 
-render(topRatedFilmsContainerElement, createFilmCardTemplate(filmMockData), `beforeend`);
-render(MostCommentedFilmsContainerElement, createFilmCardTemplate(filmMockData), `beforeend`);
+// Функция для проверки фильмов с топовым рейтингом
+const checkTopRatedFilms = (filmsToCheck) => {
+  const topRatedFilms = filmsToCheck
+    .slice()
+    .sort((a, b) => {
+      return b.rating - a.rating;
+    })
+    .slice(0, 2);
+
+  if (topRatedFilms.length > 0) {
+    const filmsMorkup = topRatedFilms.map((film) => createFilmCardTemplate(film)).join(``);
+
+    render(filmsContentElement, createTopRatedFilmsList(filmsMorkup), `beforeend`);
+  }
+};
+
+// Функция для проверки фильмов с наибольшим кол-вом комментариев
+const checkMostCommentedFilms = (filmsToCheck) => {
+  const mostCommentedFilms = filmsToCheck
+    .slice()
+    .sort((a, b) => {
+      return b.comments - a.comments;
+    })
+    .slice(0, 2);
+
+
+  if (mostCommentedFilms.length > 0) {
+
+    const filmsMorkup = mostCommentedFilms.map((film) => createFilmCardTemplate(film)).join(``);
+
+    render(filmsContentElement, createMostCommentedFilmsList(filmsMorkup), `beforeend`);
+  }
+};
+
+// Проверим фильмы на определённые условия и отрендерим найденные
+checkTopRatedFilms(films);
+checkMostCommentedFilms(films);
+
+//
+// render(MostCommentedFilmsContainerElement, createFilmCardTemplate(filmMockData), `beforeend`);
