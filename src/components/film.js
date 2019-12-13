@@ -1,4 +1,4 @@
-const createFilmMorkup = (film) => {
+export const createFilmCardTemplate = (film) => {
   const {filmName, rating, year, duration, genre, poster, description, comments} = film;
 
   return (`
@@ -20,8 +20,4 @@ const createFilmMorkup = (film) => {
     </form>
   </article>
   `);
-};
-
-export const createFilmCardTemplate = (films) => {
-  return films.map((film) => createFilmMorkup(film)).join(``);
 };
