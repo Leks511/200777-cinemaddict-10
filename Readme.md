@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Целковников](https://up.htmlacademy.ru/ecmascript/10/user/200777).
-* Наставник: `Неизвестно`.
+* Наставник: [Роман Нуйсков](https://up.htmlacademy.ru/ecmascript/10/user/1077815).
 
 ---
 
