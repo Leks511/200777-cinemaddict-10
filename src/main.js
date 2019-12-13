@@ -6,6 +6,7 @@ import {createShowMoreButtonTemplate} from './components/show-more-button';
 import {createUserRankTemplate} from './components/user-rank';
 import {createTopRatedFilmsList} from './components/top-rated-films';
 import {createMostCommentedFilmsList} from './components/most-commented-films';
+import {createFooterStatisticTemplate} from './components/footer-statistic';
 
 // Получим данные для их отображения в компонентах
 import {createFilmDetailsMock} from './mock/film-details';
@@ -63,6 +64,7 @@ showMoreButton.addEventListener(`click`, () => {
 });
 
 const footerElement = document.querySelector(`.footer`);
+render(footerElement, createFooterStatisticTemplate(FILMS_QUANTITY), `beforeend`);
 
 // Временно скроем всплывающее окно
 const filmDetailsMock = createFilmDetailsMock();
