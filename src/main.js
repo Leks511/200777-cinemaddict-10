@@ -17,10 +17,6 @@ const FILMS_QUANTITY = 20;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
-// функция рендеринга элементов
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 // Найдём элемент header и отрендерим туда рейтинг пользователя
 const headerElement = document.querySelector(`.header`);

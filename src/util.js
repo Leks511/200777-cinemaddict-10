@@ -1,27 +1,48 @@
-const getRandomIntegerNumber = (min, max) => {
+const RenderPosition = {
+  AFTERBEGIN: `afterbefin`,
+  BEFOREEND: `beforeend`
+}
+
+export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(max * Math.random());
 };
 
-const getRandomArrayItem = (array) => {
+export const getRandomArrayItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
 
   return array[randomIndex];
 };
 
-const getRandomArrayItems = (array) => {
+export const getRandomArrayItems = (array) => {
   return array.filter(() => Math.random() > 0.5);
 };
 
-const getRandomDescription = (string) => {
+export const getRandomDescription = (string) => {
   return string.split(`.`)
     .filter(() => Math.random() > 0.5)
     .slice(0, getRandomIntegerNumber(1, 3));
 };
 
-const getRandomDuration = () => {
+export const getRandomDuration = () => {
   const targetDate = new Date();
 
   return `${targetDate.getHours()}h ${targetDate.getMinutes()}m`;
 };
 
-export {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription, getRandomDuration};
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+}
+
+export const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element)
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element)
+      break;
+  }
+};
