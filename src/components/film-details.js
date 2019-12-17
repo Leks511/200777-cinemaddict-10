@@ -1,3 +1,5 @@
+import {createElement} from '../util';
+
 const createGenresMorkup = (genres) => {
   return genres.map((genre) => {
     return (`
@@ -6,7 +8,7 @@ const createGenresMorkup = (genres) => {
   }).join(``);
 };
 
-export const createFilmDetailsTemplate = (details) => {
+const createFilmDetailsTemplate = (details) => {
 
   const {cover, filmName, originalFilmName, rating, director, writers, actors, releaseDate, duration, country, genres, description, ageRating} = details;
 
@@ -232,3 +234,26 @@ export const createFilmDetailsTemplate = (details) => {
     </section>`
   );
 };
+
+export default class FilmDetails {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

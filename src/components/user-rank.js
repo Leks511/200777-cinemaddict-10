@@ -1,6 +1,6 @@
 import {createElement} from "../util";
 
-export const createUserRankTemplate = (filmsQuantity) => {
+const createUserRankTemplate = (filmsQuantity) => {
   return (
     `<section class="header__profile profile">
       <p class="profile__rating">${filmsQuantity}</p>
