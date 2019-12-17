@@ -48,13 +48,12 @@ films.slice(0, showingFilmsCount).forEach((film) => render(mainFilmsContainerEle
 const showMoreButton = new ShowMoreButtonComponent();
 render(mainFilmsContainerElement, showMoreButton.getElement(), RenderPosition.BEFOREEND);
 
-
 showMoreButton.getElement().addEventListener(`click`, () => {
   const prevFilmsCount = showingFilmsCount;
   showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
 
   films.slice(prevFilmsCount, showingFilmsCount)
-    .forEach((film) => render(mainFilmsContainerElement, new FilmComponent(film).getElement(), RenderPosition.BEFOREEND));
+    .forEach((film) => render(showMoreButton.getElement(), new FilmComponent(film).getElement(), RenderPosition.BEFOREBEGIN));
 
   if (showingFilmsCount >= films.length) {
     showMoreButton.removeElement();
