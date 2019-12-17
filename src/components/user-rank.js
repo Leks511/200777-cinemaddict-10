@@ -1,3 +1,5 @@
+import {createElement} from "../util";
+
 export const createUserRankTemplate = (filmsQuantity) => {
   return (
     `<section class="header__profile profile">
@@ -6,3 +8,26 @@ export const createUserRankTemplate = (filmsQuantity) => {
     </section>`
   );
 };
+
+export default class UserRank {
+  constructor(filmsCount) {
+    this._filmsCount = filmsCount;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createUserRankTemplate(this._filmsCount);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
