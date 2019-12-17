@@ -13,6 +13,8 @@ import {createFooterStatisticTemplate} from './components/footer-statistic';
 import {createFilmCardMocks} from './mock/film';
 import {createFilterMock} from './mock/filter';
 
+import {render, RenderPosition} from './util';
+
 const FILMS_QUANTITY = 20;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
@@ -20,17 +22,17 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 // Найдём элемент header и отрендерим туда рейтинг пользователя
 const headerElement = document.querySelector(`.header`);
-render(headerElement, createUserRankTemplate(FILMS_QUANTITY), `beforeend`);
+render(headerElement, createUserRankTemplate(FILMS_QUANTITY), RenderPosition.BEFOREEND);
 
 // Найдём элемент main
 const mainElement = document.querySelector(`.main`);
 
 // Получим данные фильтров и отрендерим в main меню с фильтрами
 const filters = createFilterMock();
-render(mainElement, createMenuTemplate(filters), `beforeend`);
+render(mainElement, createMenuTemplate(filters), RenderPosition.BEFOREEND);
 
 // Отобразим секцию с фильмами
-render(mainElement, createFilmsContentTemplate(), `beforeend`);
+render(mainElement, createFilmsContentTemplate(), RenderPosition.BEFOREEND);
 
 // Найдём секцию с фильмами и отобразим туда все фильмы
 const filmsContentElement = document.querySelector(`.films`);
@@ -40,11 +42,11 @@ const mainFilmsContainerElement = filmsContentElement.querySelector(`.films-list
 const films = createFilmCardMocks(FILMS_QUANTITY);
 
 let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-films.slice(0, showingFilmsCount).forEach((film) => render(mainFilmsContainerElement, createFilmCardTemplate(film), `beforeend`));
+films.slice(0, showingFilmsCount).forEach((film) => render(mainFilmsContainerElement, createFilmCardTemplate(film), RenderPosition.BEFOREEND));
 
 
 // Отобразим кнопку "Show more" и найдём её
-render(mainFilmsContainerElement, createShowMoreButtonTemplate(), `afterend`);
+render(mainFilmsContainerElement, createShowMoreButtonTemplate(), RenderPosition.AFTERBEGIN);
 const showMoreButton = filmsContentElement.querySelector(`.films-list__show-more`);
 
 showMoreButton.addEventListener(`click`, () => {
@@ -60,11 +62,11 @@ showMoreButton.addEventListener(`click`, () => {
 });
 
 const footerElement = document.querySelector(`.footer`);
-render(footerElement, createFooterStatisticTemplate(FILMS_QUANTITY), `beforeend`);
+render(footerElement, createFooterStatisticTemplate(FILMS_QUANTITY), RenderPosition.BEFOREEND);
 
 // Временно скроем всплывающее окно
 // const filmDetailsMock = createFilmDetailsMock();
-// render(footerElement, createFilmDetailsTemplate(filmDetailsMock), `afterend`);
+// render(footerElement, createFilmDetailsTemplate(filmDetailsMock), RenderPosition.AFTEREND);
 
 
 // Функция для проверки фильмов с топовым рейтингом
@@ -79,7 +81,7 @@ const checkTopRatedFilms = (filmsToCheck) => {
   if (topRatedFilms.length > 0) {
     const filmsMorkup = topRatedFilms.map((film) => createFilmCardTemplate(film)).join(``);
 
-    render(filmsContentElement, createTopRatedFilmsList(filmsMorkup), `beforeend`);
+    render(filmsContentElement, createTopRatedFilmsList(filmsMorkup), RenderPosition.BEFOREEND);
   }
 };
 
@@ -97,7 +99,7 @@ const checkMostCommentedFilms = (filmsToCheck) => {
 
     const filmsMorkup = mostCommentedFilms.map((film) => createFilmCardTemplate(film)).join(``);
 
-    render(filmsContentElement, createMostCommentedFilmsList(filmsMorkup), `beforeend`);
+    render(filmsContentElement, createMostCommentedFilmsList(filmsMorkup), RenderPosition.BEFOREEND);
   }
 };
 
@@ -106,4 +108,4 @@ checkTopRatedFilms(films);
 checkMostCommentedFilms(films);
 
 //
-// render(MostCommentedFilmsContainerElement, createFilmCardTemplate(filmMockData), `beforeend`);
+// render(MostCommentedFilmsContainerElement, createFilmCardTemplate(filmMockData), RenderPosition.BEFOREEND);

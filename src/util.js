@@ -1,7 +1,9 @@
-const RenderPosition = {
+export const RenderPosition = {
+  BEFORBEGIN: `beforebegin`,
   AFTERBEGIN: `afterbefin`,
-  BEFOREEND: `beforeend`
-}
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`
+};
 
 export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(max * Math.random());
@@ -34,15 +36,21 @@ export const createElement = (template) => {
   newElement.innerHTML = template;
 
   return newElement.firstChild;
-}
+};
 
 export const render = (container, element, place) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
-      container.prepend(element)
+      container.prepend(element);
       break;
     case RenderPosition.BEFOREEND:
-      container.append(element)
+      container.append(element);
+      break;
+    case RenderPosition.AFTEREND:
+      container.after(element);
+      break;
+    case RenderPosition.BEFORBEGIN:
+      container.before(element);
       break;
   }
 };
