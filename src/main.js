@@ -1,12 +1,12 @@
-import {createFilmCardTemplate} from './components/film';
+import FilmComponent from './components/film';
 // import {createFilmDetailsTemplate} from './components/film-details';
-import {createMenuTemplate} from './components/menu';
-import {createFilmsContentTemplate} from './components/films-content';
-import {createShowMoreButtonTemplate} from './components/show-more-button';
-import {createUserRankTemplate} from './components/user-rank';
-import {createTopRatedFilmsList} from './components/top-rated-films';
-import {createMostCommentedFilmsList} from './components/most-commented-films';
-import {createFooterStatisticTemplate} from './components/footer-statistic';
+import MenuComponent from './components/menu';
+import FilmsBoardComponent from './components/films-content';
+import ShowMoreButtonComponent from './components/show-more-button';
+import UserRankComponent from './components/user-rank';
+import TopRatedFilmsComponent from './components/top-rated-films';
+import MostCommentedFilmsComponent from './components/most-commented-films';
+import FooterStatisticComponent from './components/footer-statistic';
 
 // Получим данные для их отображения в компонентах
 // import {createFilmDetailsMock} from './mock/film-details';
@@ -19,10 +19,9 @@ const FILMS_QUANTITY = 20;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
-
 // Найдём элемент header и отрендерим туда рейтинг пользователя
 const headerElement = document.querySelector(`.header`);
-render(headerElement, createUserRankTemplate(FILMS_QUANTITY), RenderPosition.BEFOREEND);
+render(headerElement, UserRankComponent.getElement(FILMS_QUANTITY), RenderPosition.BEFOREEND);
 
 // Найдём элемент main
 const mainElement = document.querySelector(`.main`);
