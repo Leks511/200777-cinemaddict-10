@@ -10,7 +10,7 @@ const createGenresMorkup = (genres) => {
 
 const createFilmDetailsTemplate = (details) => {
 
-  const {cover, filmName, originalFilmName, rating, director, writers, actors, releaseDate, duration, country, genres, description, ageRating} = details;
+  const {poster, filmName, originalFilmName, rating, director, writers, actors, releaseDate, duration, country, genres, fullDescription, ageRating} = details;
 
   const genresMorkup = createGenresMorkup(genres);
 
@@ -23,7 +23,7 @@ const createFilmDetailsTemplate = (details) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="images/posters/${cover}" alt="">
+              <img class="film-details__poster-img" src="images/posters/${poster}" alt="">
 
               <p class="film-details__age">${ageRating}+</p>
             </div>
@@ -74,7 +74,7 @@ const createFilmDetailsTemplate = (details) => {
               </table>
 
               <p class="film-details__film-description">
-                ${description}
+                ${fullDescription}
               </p>
             </div>
           </div>
@@ -99,7 +99,7 @@ const createFilmDetailsTemplate = (details) => {
 
             <div class="film-details__user-score">
               <div class="film-details__user-rating-poster">
-                <img src="./images/posters/${cover}" alt="film-poster" class="film-details__user-rating-img">
+                <img src="./images/posters/${poster}" alt="film-poster" class="film-details__user-rating-img">
               </div>
 
               <section class="film-details__user-rating-inner">

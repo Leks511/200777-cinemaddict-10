@@ -1,5 +1,5 @@
 import FilmComponent from './components/film';
-// import FilmDetailsComponent from './components/film-details';
+import FilmDetailsComponent from './components/film-details';
 import MenuComponent from './components/menu';
 import FilmsBoardComponent from './components/films-content';
 import ShowMoreButtonComponent from './components/show-more-button';
@@ -17,6 +17,23 @@ import {render, RenderPosition} from './util';
 const FILMS_QUANTITY = 20;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
+
+const renderFilm = (film) => {
+  const filmComponent = new FilmComponent(film);
+  const filmDetailsComponent = new FilmDetailsComponent(film);
+
+  const filmTitle = filmComponent.getElement().querySelector(`.film-card__title`);
+  const filmPoster = filmComponent.getElement().querySelector(`.film-card__poster`);
+  const filmComments = filmComponent.getElement().querySelector(`.film-card__comments`);
+
+  const filmCloseButton = filmDetailsComponent.getElement();
+
+  filmTitle.addEventListener(`click`, () => {});
+  filmPoster.addEventListener(`click`, () => {});
+  filmComments.addEventListener(`click`, () => {});
+
+  filmCloseButton.addEventListener(`click`, () => {});
+};
 
 // Найдём элемент header и отрендерим туда рейтинг пользователя
 const headerElement = document.querySelector(`.header`);
@@ -40,8 +57,10 @@ const mainFilmsContainerElement = filmsContentElement.querySelector(`.films-list
 const films = createFilmCardMocks(FILMS_QUANTITY);
 
 let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-films.slice(0, showingFilmsCount).forEach((film) => render(mainFilmsContainerElement, new FilmComponent(film).getElement(), RenderPosition.BEFOREEND));
-
+films.slice(0, showingFilmsCount)
+  .forEach((film) => {
+    renderFilm(film);
+  });
 
 // Отобразим кнопку "Show more"
 const showMoreButton = new ShowMoreButtonComponent();
@@ -63,11 +82,6 @@ showMoreButton.getElement().addEventListener(`click`, () => {
 
 const footerElement = document.querySelector(`.footer`);
 render(footerElement, new FooterStatisticComponent(FILMS_QUANTITY).getElement(), RenderPosition.BEFOREEND);
-
-// Временно скроем всплывающее окно
-// const filmDetailsMock = createFilmDetailsMock();
-// render(footerElement, new FilmDetailsComponent(filmDetailsMock).getElement(), RenderPosition.AFTEREND);
-
 
 // Функция для проверки фильмов с топовым рейтингом
 const checkTopRatedFilms = (filmsToCheck) => {
@@ -105,6 +119,3 @@ const checkMostCommentedFilms = (filmsToCheck) => {
 // Проверим фильмы на определённые условия и отрендерим найденные
 checkTopRatedFilms(films);
 checkMostCommentedFilms(films);
-
-//
-// render(MostCommentedFilmsContainerElement, new FilmCardComponent(filmMockData).getElement(), RenderPosition.BEFOREEND);
