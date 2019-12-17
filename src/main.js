@@ -44,10 +44,11 @@ let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
 films.slice(0, showingFilmsCount).forEach((film) => render(mainFilmsContainerElement, new FilmComponent(film).getElement(), RenderPosition.BEFOREEND));
 
 
-// Отобразим кнопку "Show more" и найдём её
+// Отобразим кнопку "Show more"
 const showMoreButton = new ShowMoreButtonComponent();
 render(mainFilmsContainerElement, showMoreButton.getElement(), RenderPosition.BEFOREEND);
 
+// Добавим функционал для "Show more"
 showMoreButton.getElement().addEventListener(`click`, () => {
   const prevFilmsCount = showingFilmsCount;
   showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
@@ -56,8 +57,8 @@ showMoreButton.getElement().addEventListener(`click`, () => {
     .forEach((film) => render(showMoreButton.getElement(), new FilmComponent(film).getElement(), RenderPosition.BEFOREBEGIN));
 
   if (showingFilmsCount >= films.length) {
+    showMoreButton.getElement().remove();
     showMoreButton.removeElement();
-    new ShowMoreButtonComponent().removeElement();
   }
 });
 
