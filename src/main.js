@@ -9,7 +9,6 @@ import MostCommentedFilmsComponent from './components/most-commented-films';
 import FooterStatisticComponent from './components/footer-statistic';
 
 // Получим данные для их отображения в компонентах
-// import {createFilmDetailsMock} from './mock/film-details';
 import {createFilmCardMocks} from './mock/film';
 import {createFilterMock} from './mock/filter';
 
