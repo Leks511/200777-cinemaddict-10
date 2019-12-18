@@ -1,12 +1,11 @@
 import {createElement} from "../util";
 
-const createTopRatedFilmsListTemplate = (films) => {
+const createTopRatedFilmsListTemplate = () => {
   return (
     `<section class="films-list--extra">
       <h2 class="films-list__title">Top rated</h2>
 
       <div class="films-list__container">
-        ${films}
       </div>
 
     </section>`
@@ -14,13 +13,12 @@ const createTopRatedFilmsListTemplate = (films) => {
 };
 
 export default class TopRatedFilmsList {
-  constructor(films) {
-    this._films = films;
+  constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createTopRatedFilmsListTemplate(this._films);
+    return createTopRatedFilmsListTemplate();
   }
 
   getElement() {

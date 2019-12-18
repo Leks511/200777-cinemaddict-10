@@ -1,12 +1,11 @@
 import {createElement} from "../util";
 
-const createMostCommentedFilmsList = (morkup) => {
+const createMostCommentedFilmsList = () => {
   return (
     `<section class="films-list--extra">
       <h2 class="films-list__title">Most commented</h2>
 
       <div class="films-list__container">
-        ${morkup}
       </div>
 
     </section>`
@@ -14,13 +13,12 @@ const createMostCommentedFilmsList = (morkup) => {
 };
 
 export default class MostCommentedFilmsList {
-  constructor(films) {
-    this._films = films;
+  constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createMostCommentedFilmsList(this._films);
+    return createMostCommentedFilmsList();
   }
 
   getElement() {

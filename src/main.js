@@ -22,15 +22,11 @@ const showMoreButton = new ShowMoreButtonComponent();
 
 const renderFilmDetails = (film) => {
   console.log(film.getElement());
-}
+};
 
-const renderFilm = (film) => {
+const getFilm = (film) => {
   const filmComponent = new FilmComponent(film);
   const filmDetailsComponent = new FilmDetailsComponent(film);
-
-  // const filmTitle = filmComponent.getElement().querySelector(`.film-card__title`);
-  // const filmPoster = filmComponent.getElement().querySelector(`.film-card__poster`);
-  // const filmComments = filmComponent.getElement().querySelector(`.film-card__comments`);
 
   const filmCloseButton = filmDetailsComponent.getElement();
 
@@ -44,9 +40,12 @@ const renderFilm = (film) => {
     renderFilmDetails(filmDetailsComponent);
   }));
 
-  filmCloseButton.addEventListener(`click`, () => {});
+  filmCloseButton.addEventListener(`click`, () => {
+    filmDetailsComponent.getElement().remove();
+    filmDetailsComponent.removeElement();
+  });
 
-  render(showMoreButton.getElement(), filmComponent.getElement(), RenderPosition.BEFOREBEGIN);
+  return filmComponent.getElement();
 };
 
 // Найдём элемент header и отрендерим туда рейтинг пользователя
@@ -74,7 +73,7 @@ const films = createFilmCardMocks(FILMS_QUANTITY);
 let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
 films.slice(0, showingFilmsCount)
   .forEach((film) => {
-    renderFilm(film);
+    render(showMoreButton.getElement(), getFilm(film), RenderPosition.BEFOREBEGIN);
   });
 
 // Добавим функционал для "Show more"
@@ -83,7 +82,9 @@ showMoreButton.getElement().addEventListener(`click`, () => {
   showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
 
   films.slice(prevFilmsCount, showingFilmsCount)
-    .forEach((film) => renderFilm(film));
+    .forEach((film) => {
+      render(showMoreButton.getElement(), getFilm(film), RenderPosition.BEFOREBEGIN)
+    });
 
   if (showingFilmsCount >= films.length) {
     showMoreButton.getElement().remove();
@@ -104,9 +105,18 @@ const checkTopRatedFilms = (filmsToCheck) => {
     .slice(0, 2);
 
   if (topFilms.length > 0) {
-    const filmCards = topFilms.map((film) => new FilmComponent(film).getTemplate()).join(``);
+    const filmCards = topFilms
+      .map((film) => getFilm(film));
 
-    render(filmsContentElement, new TopRatedFilmsComponent(filmCards).getElement(), RenderPosition.BEFOREEND);
+    const topRatedFilmsComponent = new TopRatedFilmsComponent();
+
+    render(filmsContentElement, topRatedFilmsComponent.getElement(), RenderPosition.BEFOREEND);
+
+    const filmContainer = topRatedFilmsComponent.getElement().querySelector(`.films-list__container`);
+
+    filmCards.forEach((film) => {
+      render(filmContainer, film, RenderPosition.BEFOREEND);
+    });
   }
 };
 
@@ -121,9 +131,18 @@ const checkMostCommentedFilms = (filmsToCheck) => {
 
 
   if (topFilms.length > 0) {
-    const filmCards = topFilms.map((film) => new FilmComponent(film).getTemplate()).join(``);
+    const filmCards = topFilms
+      .map((film) => getFilm(film));
 
-    render(filmsContentElement, new MostCommentedFilmsComponent(filmCards).getElement(), RenderPosition.BEFOREEND);
+    const mostCommentedFilmsComponent = new MostCommentedFilmsComponent();
+
+    render(filmsContentElement, mostCommentedFilmsComponent.getElement(), RenderPosition.BEFOREEND);
+
+    const filmContainer = mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`);
+
+    filmCards.forEach((film) => {
+      render(filmContainer, film, RenderPosition.BEFOREEND);
+    });
   }
 };
 
