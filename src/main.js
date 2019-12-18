@@ -20,15 +20,18 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 const showMoreButton = new ShowMoreButtonComponent();
 
-const renderFilmDetails = (film) => {
-  console.log(film.getElement());
+const bindClosingToPopup = (popupComponent) => {
+  const closePopupButtonElement = popupComponent.getElement().querySelector(`.film-details__close-btn`);
+
+  closePopupButtonElement.addEventListener(`click`, () => {
+    popupComponent.getElement().remove();
+    popupComponent.removeElement();
+  });
 };
 
 const getFilm = (film) => {
   const filmComponent = new FilmComponent(film);
   const filmDetailsComponent = new FilmDetailsComponent(film);
-
-  const filmCloseButton = filmDetailsComponent.getElement();
 
   const linksToFilmDetails = [
     filmComponent.getElement().querySelector(`.film-card__title`),
@@ -37,13 +40,10 @@ const getFilm = (film) => {
   ];
 
   linksToFilmDetails.forEach((link) => link.addEventListener(`click`, () => {
-    renderFilmDetails(filmDetailsComponent);
-  }));
+    render(footerElement, filmDetailsComponent.getElement(), RenderPosition.AFTEREND);
 
-  filmCloseButton.addEventListener(`click`, () => {
-    filmDetailsComponent.getElement().remove();
-    filmDetailsComponent.removeElement();
-  });
+    bindClosingToPopup(filmDetailsComponent);
+  }));
 
   return filmComponent.getElement();
 };
@@ -83,7 +83,7 @@ showMoreButton.getElement().addEventListener(`click`, () => {
 
   films.slice(prevFilmsCount, showingFilmsCount)
     .forEach((film) => {
-      render(showMoreButton.getElement(), getFilm(film), RenderPosition.BEFOREBEGIN)
+      render(showMoreButton.getElement(), getFilm(film), RenderPosition.BEFOREBEGIN);
     });
 
   if (showingFilmsCount >= films.length) {
