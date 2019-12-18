@@ -1,3 +1,5 @@
+import {createElement} from '../util';
+
 const createGenresMorkup = (genres) => {
   return genres.map((genre) => {
     return (`
@@ -6,14 +8,14 @@ const createGenresMorkup = (genres) => {
   }).join(``);
 };
 
-export const createFilmDetailsTemplate = (details) => {
+const createFilmDetailsTemplate = (details) => {
 
-  const {cover, filmName, originalFilmName, rating, director, writers, actors, releaseDate, duration, country, genres, description, ageRating} = details;
+  const {poster, filmName, originalFilmName, rating, director, writers, actors, releaseDate, duration, country, genres, fullDescription, ageRating} = details;
 
   const genresMorkup = createGenresMorkup(genres);
 
-  return (`
-    <section class="film-details">
+  return (
+    `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
         <label class="form-details__top-container">
           <div class="film-details__close">
@@ -21,7 +23,7 @@ export const createFilmDetailsTemplate = (details) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="images/posters/${cover}" alt="">
+              <img class="film-details__poster-img" src="images/posters/${poster}" alt="">
 
               <p class="film-details__age">${ageRating}+</p>
             </div>
@@ -72,7 +74,7 @@ export const createFilmDetailsTemplate = (details) => {
               </table>
 
               <p class="film-details__film-description">
-                ${description}
+                ${fullDescription}
               </p>
             </div>
           </div>
@@ -97,7 +99,7 @@ export const createFilmDetailsTemplate = (details) => {
 
             <div class="film-details__user-score">
               <div class="film-details__user-rating-poster">
-                <img src="./images/posters/${cover}" alt="film-poster" class="film-details__user-rating-img">
+                <img src="./images/posters/${poster}" alt="film-poster" class="film-details__user-rating-img">
               </div>
 
               <section class="film-details__user-rating-inner">
@@ -229,6 +231,29 @@ export const createFilmDetailsTemplate = (details) => {
           </section>
         </div>
       </form>
-    </section>
-  `);
+    </section>`
+  );
 };
+
+export default class FilmDetails {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
