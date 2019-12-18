@@ -18,6 +18,8 @@ const FILMS_QUANTITY = 20;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
+const showMoreButton = new ShowMoreButtonComponent();
+
 const renderFilm = (film) => {
   const filmComponent = new FilmComponent(film);
   const filmDetailsComponent = new FilmDetailsComponent(film);
@@ -33,6 +35,8 @@ const renderFilm = (film) => {
   filmComments.addEventListener(`click`, () => {});
 
   filmCloseButton.addEventListener(`click`, () => {});
+
+  render(showMoreButton.getElement(), filmComponent.getElement(), RenderPosition.BEFOREBEGIN);
 };
 
 // Найдём элемент header и отрендерим туда рейтинг пользователя
@@ -52,6 +56,7 @@ render(mainElement, new FilmsBoardComponent().getElement(), RenderPosition.BEFOR
 // Найдём секцию с фильмами и отобразим туда все фильмы
 const filmsContentElement = document.querySelector(`.films`);
 const mainFilmsContainerElement = filmsContentElement.querySelector(`.films-list .films-list__container`);
+render(mainFilmsContainerElement, showMoreButton.getElement(), RenderPosition.BEFOREEND);
 
 // Получим данные фильмов и отобразим карточки определённое кол-во раз
 const films = createFilmCardMocks(FILMS_QUANTITY);
@@ -62,17 +67,13 @@ films.slice(0, showingFilmsCount)
     renderFilm(film);
   });
 
-// Отобразим кнопку "Show more"
-const showMoreButton = new ShowMoreButtonComponent();
-render(mainFilmsContainerElement, showMoreButton.getElement(), RenderPosition.BEFOREEND);
-
 // Добавим функционал для "Show more"
 showMoreButton.getElement().addEventListener(`click`, () => {
   const prevFilmsCount = showingFilmsCount;
   showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
 
   films.slice(prevFilmsCount, showingFilmsCount)
-    .forEach((film) => render(showMoreButton.getElement(), new FilmComponent(film).getElement(), RenderPosition.BEFOREBEGIN));
+    .forEach((film) => renderFilm(film));
 
   if (showingFilmsCount >= films.length) {
     showMoreButton.getElement().remove();
