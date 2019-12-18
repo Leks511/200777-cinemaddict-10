@@ -1,3 +1,4 @@
+import NoDataComponent from './components/no-data';
 import FilmComponent from './components/film';
 import FilmDetailsComponent from './components/film-details';
 import MenuComponent from './components/menu';
