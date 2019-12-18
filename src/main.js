@@ -20,19 +20,29 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 const showMoreButton = new ShowMoreButtonComponent();
 
+const renderFilmDetails = (film) => {
+  console.log(film.getElement());
+}
+
 const renderFilm = (film) => {
   const filmComponent = new FilmComponent(film);
   const filmDetailsComponent = new FilmDetailsComponent(film);
 
-  const filmTitle = filmComponent.getElement().querySelector(`.film-card__title`);
-  const filmPoster = filmComponent.getElement().querySelector(`.film-card__poster`);
-  const filmComments = filmComponent.getElement().querySelector(`.film-card__comments`);
+  // const filmTitle = filmComponent.getElement().querySelector(`.film-card__title`);
+  // const filmPoster = filmComponent.getElement().querySelector(`.film-card__poster`);
+  // const filmComments = filmComponent.getElement().querySelector(`.film-card__comments`);
 
   const filmCloseButton = filmDetailsComponent.getElement();
 
-  filmTitle.addEventListener(`click`, () => {});
-  filmPoster.addEventListener(`click`, () => {});
-  filmComments.addEventListener(`click`, () => {});
+  const linksToFilmDetails = [
+    filmComponent.getElement().querySelector(`.film-card__title`),
+    filmComponent.getElement().querySelector(`.film-card__poster`),
+    filmComponent.getElement().querySelector(`.film-card__comments`)
+  ];
+
+  linksToFilmDetails.forEach((link) => link.addEventListener(`click`, () => {
+    renderFilmDetails(filmDetailsComponent);
+  }));
 
   filmCloseButton.addEventListener(`click`, () => {});
 
