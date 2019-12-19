@@ -18,18 +18,34 @@ import {render, RenderPosition} from './util';
 const FILMS_QUANTITY = 20;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
+const ESC_CODE = 27;
 
 const showMoreButton = new ShowMoreButtonComponent();
 
+// Функция, закрывающая попап фильма
 const bindClosingToPopup = (popupComponent) => {
   const closePopupButtonElement = popupComponent.getElement().querySelector(`.film-details__close-btn`);
 
-  closePopupButtonElement.addEventListener(`click`, () => {
+  // Функция, закрывающая попап
+  const closePopup = () => {
     popupComponent.getElement().remove();
     popupComponent.removeElement();
-  });
+  };
+
+  // Функция прослушки
+  const onPopupEscPress = (evt) => {
+    if (evt.keyCode === ESC_CODE) {
+      closePopup();
+      document.removeEventListener(`keydown`, onPopupEscPress);
+    }
+  };
+
+  // Добавим прослушку на закрытие попапа
+  document.addEventListener(`keydown`, onPopupEscPress);
+  closePopupButtonElement.addEventListener(`click`, closePopup);
 };
 
+// Функция, добавляющая функционал на каждую карту фильма
 const getFilm = (film) => {
   const filmComponent = new FilmComponent(film);
   const filmDetailsComponent = new FilmDetailsComponent(film);
@@ -42,7 +58,6 @@ const getFilm = (film) => {
 
   linksToFilmDetails.forEach((link) => link.addEventListener(`click`, () => {
     render(footerElement, filmDetailsComponent.getElement(), RenderPosition.AFTEREND);
-
     bindClosingToPopup(filmDetailsComponent);
   }));
 
