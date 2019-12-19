@@ -1,6 +1,6 @@
 import {createElement} from '../util';
 
-const createNoDataTemplate = () => {
+const createNoDataTitleTemplate = () => {
   return `<h2 class="films-list__title">There are no movies in our database</h2>`;
 };
 
@@ -10,12 +10,12 @@ export default class NoData {
   }
 
   getTemplate() {
-    return createNoDataTemplate();
+    return createNoDataTitleTemplate();
   }
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(createNoDataTemplate());
+      this._element = createElement(createNoDataTitleTemplate());
     }
 
     return this._element;
