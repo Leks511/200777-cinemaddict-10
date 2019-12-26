@@ -33,9 +33,8 @@ const showMoreButtonComponent = new ShowMoreButtonComponent();
 
 // Функция, закрывающая попап фильма
 const bindClosingToPopup = (popupComponent) => {
-  const closePopupButtonElement = popupComponent.getElement().querySelector(`.film-details__close-btn`);
 
-  // Функция прослушки
+  // Функция прослушки нажатия ESC
   const onPopupEscPress = (evt) => {
     if (evt.keyCode === ESC_CODE) {
       remove(popupComponent);
@@ -45,7 +44,7 @@ const bindClosingToPopup = (popupComponent) => {
 
   // Добавим прослушку на закрытие попапа
   document.addEventListener(`keydown`, onPopupEscPress);
-  closePopupButtonElement.addEventListener(`click`, closePopup);
+  popupComponent.setCloseButtonClickHandler(remove(popupComponent));
 };
 
 // Функция, добавляющая функционал на каждую карту фильма
