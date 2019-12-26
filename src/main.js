@@ -1,6 +1,6 @@
 import NoDataTitleComponent from './components/no-data-title';
 import YesgDataTitleComponent from './components/yes-data-title';
-import FilmComponent from './components/film';
+import FilmCardComponent from './components/film';
 import FilmDetailsComponent from './components/film-details';
 import MenuComponent from './components/menu';
 import SortComponent from './components/sort';
@@ -59,7 +59,7 @@ const getFilm = (film) => {
   ];
 
   linksToFilmDetails.forEach((link) => link.addEventListener(`click`, () => {
-    render(footerElement, filmDetailsComponent.getElement(), RenderPosition.AFTEREND);
+    render(footerElement, filmDetailsComponent, RenderPosition.AFTEREND);
     bindClosingToPopup(filmDetailsComponent);
   }));
 
@@ -93,11 +93,24 @@ if (!films.length) {
 
   const filmsContainerElement = mainFilmsListElement.querySelector(`.films-list__container`);
 
+
+  // При отображении фильмов нужно повесить обработчики событий на части элемента компонента фильма.
+
+
   // Отобразим стартовое кол-во фильмов
   let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
   films.slice(0, showingFilmsCount)
     .forEach((film) => {
-      render(filmsContainerElement, getFilm(film), RenderPosition.BEFOREEND);
+      const filmCardComponent = new FilmCardComponent(film);
+      const filmDetailsComponent = new FilmDetailsComponent(film);
+
+      // Привязка функционала к каждому попапу фильма
+
+      // Рендер карточек фильмов и привязка функционала
+      render(filmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
+      filmCardComponent.setLinksClickHandler();
+
+
     });
 
   // Добавим функционал для "Show more"
