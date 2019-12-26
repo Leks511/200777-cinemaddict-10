@@ -16,7 +16,7 @@ import FooterStatisticComponent from './components/footer-statistic';
 import {createFilmCardMocks} from './mock/film';
 import {createFilterMock} from './mock/filter';
 
-import {render, RenderPosition} from './util';
+import {render, remove, RenderPosition} from './utils/render';
 
 const FILMS_QUANTITY = 10;
 const SHOWING_FILMS_COUNT_ON_START = 5;
@@ -29,22 +29,16 @@ const mainElement = document.querySelector(`.main`);
 
 // Объявим компоненты для последующего многоразового использования
 const boardComponent = new BoardComponent();
-const showMoreButton = new ShowMoreButtonComponent();
+const showMoreButtonComponent = new ShowMoreButtonComponent();
 
 // Функция, закрывающая попап фильма
 const bindClosingToPopup = (popupComponent) => {
   const closePopupButtonElement = popupComponent.getElement().querySelector(`.film-details__close-btn`);
 
-  // Функция, закрывающая попап
-  const closePopup = () => {
-    popupComponent.getElement().remove();
-    popupComponent.removeElement();
-  };
-
   // Функция прослушки
   const onPopupEscPress = (evt) => {
     if (evt.keyCode === ESC_CODE) {
-      closePopup();
+      remove(popupComponent);
       document.removeEventListener(`keydown`, onPopupEscPress);
     }
   };
@@ -74,15 +68,15 @@ const getFilm = (film) => {
 };
 
 // Найдём элемент header и отрендерим туда рейтинг пользователя
-render(headerElement, new UserRankComponent(FILMS_QUANTITY).getElement(), RenderPosition.BEFOREEND);
+render(headerElement, new UserRankComponent(FILMS_QUANTITY), RenderPosition.BEFOREEND);
 
 // Получим данные фильтров и отрендерим в main меню с фильтрами
 const filters = createFilterMock();
-render(mainElement, new MenuComponent(filters).getElement(), RenderPosition.BEFOREEND);
-render(mainElement, new SortComponent().getElement(), RenderPosition.BEFOREEND);
+render(mainElement, new MenuComponent(filters), RenderPosition.BEFOREEND);
+render(mainElement, new SortComponent(), RenderPosition.BEFOREEND);
 
 // Отобразим секцию для фильмов и найдём основные элементы
-render(mainElement, boardComponent.getElement(), RenderPosition.BEFOREEND);
+render(mainElement, boardComponent, RenderPosition.BEFOREEND);
 const filmsSectionElement = mainElement.querySelector(`.films`);
 const filmsListElement = filmsSectionElement.querySelector(`.films-list`);
 
@@ -90,13 +84,13 @@ const filmsListElement = filmsSectionElement.querySelector(`.films-list`);
 const films = createFilmCardMocks(FILMS_QUANTITY);
 
 if (!films.length) {
-  render(filmsListElement, new NoDataTitleComponent().getElement(), RenderPosition.BEFOREEND);
+  render(filmsListElement, new NoDataTitleComponent(), RenderPosition.BEFOREEND);
 } else {
   // Найдём секцию с фильмами и отобразим туда все фильмы
   const mainFilmsListElement = boardComponent.getElement().querySelector(`.films-list`);
-  render(mainFilmsListElement, new YesgDataTitleComponent().getElement(), RenderPosition.BEFOREEND);
-  render(mainFilmsListElement, new AllFimsComponent().getElement(), RenderPosition.BEFOREEND);
-  render(mainFilmsListElement, showMoreButton.getElement(), RenderPosition.BEFOREEND);
+  render(mainFilmsListElement, new YesgDataTitleComponent(), RenderPosition.BEFOREEND);
+  render(mainFilmsListElement, new AllFimsComponent(), RenderPosition.BEFOREEND);
+  render(mainFilmsListElement, showMoreButtonComponent, RenderPosition.BEFOREEND);
 
   const filmsContainerElement = mainFilmsListElement.querySelector(`.films-list__container`);
 
@@ -108,7 +102,7 @@ if (!films.length) {
     });
 
   // Добавим функционал для "Show more"
-  showMoreButton.getElement().addEventListener(`click`, () => {
+  showMoreButtonComponent.getElement().addEventListener(`click`, () => {
     const prevFilmsCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
 
@@ -118,8 +112,7 @@ if (!films.length) {
       });
 
     if (showingFilmsCount >= films.length) {
-      showMoreButton.getElement().remove();
-      showMoreButton.removeElement();
+      remove(showMoreButtonComponent);
     }
   });
 
@@ -138,9 +131,9 @@ if (!films.length) {
 
       const topRatedFilmsComponent = new TopRatedFilmsComponent();
 
-      render(filmsSectionElement, topRatedFilmsComponent.getElement(), RenderPosition.BEFOREEND);
+      render(filmsSectionElement, topRatedFilmsComponent, RenderPosition.BEFOREEND);
 
-      const filmContainerElement = topRatedFilmsComponent.getElement().querySelector(`.films-list__container`);
+      const filmContainerElement = topRatedFilmsComponent.querySelector(`.films-list__container`);
 
       filmCards.forEach((film) => {
         render(filmContainerElement, film, RenderPosition.BEFOREEND);
@@ -163,9 +156,9 @@ if (!films.length) {
 
       const mostCommentedFilmsComponent = new MostCommentedFilmsComponent();
 
-      render(filmsSectionElement, mostCommentedFilmsComponent.getElement(), RenderPosition.BEFOREEND);
+      render(filmsSectionElement, mostCommentedFilmsComponent, RenderPosition.BEFOREEND);
 
-      const filmContainerElement = mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`);
+      const filmContainerElement = mostCommentedFilmsComponent.querySelector(`.films-list__container`);
 
       filmCards.forEach((film) => {
         render(filmContainerElement, film, RenderPosition.BEFOREEND);
@@ -180,4 +173,4 @@ if (!films.length) {
 
 // Рендеринг статистики в футере
 const footerElement = document.querySelector(`.footer`);
-render(footerElement, new FooterStatisticComponent(FILMS_QUANTITY).getElement(), RenderPosition.BEFOREEND);
+render(footerElement, new FooterStatisticComponent(FILMS_QUANTITY), RenderPosition.BEFOREEND);
