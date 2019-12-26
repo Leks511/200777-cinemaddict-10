@@ -76,14 +76,9 @@ if (!films.length) {
   const filmsContainerElement = mainFilmsListElement.querySelector(`.films-list__container`);
 
 
-  // При отображении фильмов нужно повесить обработчики событий на части элемента компонента фильма.
-
+  // Функция, навешивающая обработчики событий на части карточки фильма.
   const renderFilmCards = (startFilmNumber, endFilmNumber) => {
-    const prevFilmsCount = showingFilmsCount;
-    showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
-
-    films.slice(prevFilmsCount, showingFilmsCount)
-
+    films.slice(startFilmNumber, endFilmNumber)
       .forEach((film) => {
         const filmCardComponent = new FilmCardComponent(film);
         const filmDetailsComponent = new FilmDetailsComponent(film);
@@ -98,99 +93,78 @@ if (!films.length) {
   };
 
 
-  // Отобразим стартовое кол-во фильмов
+  // Отобразим несколько фильмов при старте
   let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-  films.slice(0, showingFilmsCount)
+  renderFilmCards(0, showingFilmsCount);
 
-    .forEach((film) => {
-      const filmCardComponent = new FilmCardComponent(film);
-      const filmDetailsComponent = new FilmDetailsComponent(film);
-
-      // Привязка функционала к каждому попапу фильма
-      bindClosingToPopup(filmDetailsComponent);
-
-      // Рендер карточек фильмов и привязка функционала
-      render(filmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
-      filmCardComponent.setLinksClickHandler();
-    });
-
-  // Добавим функционал для "Show more"
-  showMoreButtonComponent.getElement().addEventListener(`click`, () => {
-
+  // Функция добавления карточек на доску
+  const addFilmsToBoard = () => {
     const prevFilmsCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
 
-    films.slice(prevFilmsCount, showingFilmsCount)
-      .forEach((film) => {
-        const filmCardComponent = new FilmCardComponent(film);
-        const filmDetailsComponent = new FilmDetailsComponent(film);
-
-        // Привязка функционала к каждому попапу фильма
-        bindClosingToPopup(filmDetailsComponent);
-
-        // Рендер карточек фильмов и привязка функционала
-        render(filmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
-        filmCardComponent.setLinksClickHandler();
-      });
+    renderFilmCards(prevFilmsCount, showingFilmsCount);
 
     if (showingFilmsCount >= films.length) {
       remove(showMoreButtonComponent);
     }
-  });
+  };
+
+  // Добавим функционал для "Show more"
+  showMoreButtonComponent.setClickHandler(addFilmsToBoard);
 
   // Функция для проверки фильмов с топовым рейтингом
-  const checkTopRatedFilms = (filmsToCheck) => {
-    const topFilms = filmsToCheck
-      .slice()
-      .sort((a, b) => {
-        return b.rating - a.rating;
-      })
-      .slice(0, 2);
+  // const checkTopRatedFilms = (filmsToCheck) => {
+  //   const topFilms = filmsToCheck
+  //     .slice()
+  //     .sort((a, b) => {
+  //       return b.rating - a.rating;
+  //     })
+  //     .slice(0, 2);
 
-    if (topFilms.length > 0) {
-      const filmCards = topFilms
-        .map((film) => getFilm(film));
+  //   if (topFilms.length > 0) {
+  //     const filmCards = topFilms
+  //       .map((film) => getFilm(film));
 
-      const topRatedFilmsComponent = new TopRatedFilmsComponent();
+  //     const topRatedFilmsComponent = new TopRatedFilmsComponent();
 
-      render(filmsSectionElement, topRatedFilmsComponent, RenderPosition.BEFOREEND);
+  //     render(filmsSectionElement, topRatedFilmsComponent, RenderPosition.BEFOREEND);
 
-      const filmContainerElement = topRatedFilmsComponent.querySelector(`.films-list__container`);
+  //     const filmContainerElement = topRatedFilmsComponent.querySelector(`.films-list__container`);
 
-      filmCards.forEach((film) => {
-        render(filmContainerElement, film, RenderPosition.BEFOREEND);
-      });
-    }
-  };
+  //     filmCards.forEach((film) => {
+  //       render(filmContainerElement, film, RenderPosition.BEFOREEND);
+  //     });
+  //   }
+  // };
 
   // // Функция для проверки фильмов с наибольшим кол-вом комментариев
-  const checkMostCommentedFilms = (filmsToCheck) => {
-    const topFilms = filmsToCheck
-      .slice()
-      .sort((a, b) => {
-        return b.comments - a.comments;
-      })
-      .slice(0, 2);
+  // const checkMostCommentedFilms = (filmsToCheck) => {
+  //   const topFilms = filmsToCheck
+  //     .slice()
+  //     .sort((a, b) => {
+  //       return b.comments - a.comments;
+  //     })
+  //     .slice(0, 2);
 
-    if (topFilms.length > 0) {
-      const filmCards = topFilms
-        .map((film) => getFilm(film));
+  //   if (topFilms.length > 0) {
+  //     const filmCards = topFilms
+  //       .map((film) => getFilm(film));
 
-      const mostCommentedFilmsComponent = new MostCommentedFilmsComponent();
+  //     const mostCommentedFilmsComponent = new MostCommentedFilmsComponent();
 
-      render(filmsSectionElement, mostCommentedFilmsComponent, RenderPosition.BEFOREEND);
+  //     render(filmsSectionElement, mostCommentedFilmsComponent, RenderPosition.BEFOREEND);
 
-      const filmContainerElement = mostCommentedFilmsComponent.querySelector(`.films-list__container`);
+  //     const filmContainerElement = mostCommentedFilmsComponent.querySelector(`.films-list__container`);
 
-      filmCards.forEach((film) => {
-        render(filmContainerElement, film, RenderPosition.BEFOREEND);
-      });
-    }
-  };
+  //     filmCards.forEach((film) => {
+  //       render(filmContainerElement, film, RenderPosition.BEFOREEND);
+  //     });
+  //   }
+  // };
 
   // // Проверим фильмы на определённые условия и отрендерим найденные
-  checkTopRatedFilms(films);
-  checkMostCommentedFilms(films);
+  // checkTopRatedFilms(films);
+  // checkMostCommentedFilms(films);
 }
 
 // Рендеринг статистики в футере
