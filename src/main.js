@@ -18,7 +18,7 @@ import {createFilterMock} from './mock/filter';
 
 import {render, remove, RenderPosition} from './utils/render';
 
-const FILMS_QUANTITY = 10;
+const FILMS_QUANTITY = 30;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 const ESC_CODE = 27;
