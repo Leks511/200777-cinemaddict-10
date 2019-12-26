@@ -47,24 +47,6 @@ const bindClosingToPopup = (popupComponent) => {
   popupComponent.setCloseButtonClickHandler(remove(popupComponent));
 };
 
-// Функция, добавляющая функционал на каждую карту фильма
-const getFilm = (film) => {
-  const filmComponent = new FilmComponent(film);
-  const filmDetailsComponent = new FilmDetailsComponent(film);
-
-  const linksToFilmDetails = [
-    filmComponent.getElement().querySelector(`.film-card__title`),
-    filmComponent.getElement().querySelector(`.film-card__poster`),
-    filmComponent.getElement().querySelector(`.film-card__comments`)
-  ];
-
-  linksToFilmDetails.forEach((link) => link.addEventListener(`click`, () => {
-    render(footerElement, filmDetailsComponent, RenderPosition.AFTEREND);
-    bindClosingToPopup(filmDetailsComponent);
-  }));
-
-  return filmComponent.getElement();
-};
 
 // Найдём элемент header и отрендерим туда рейтинг пользователя
 render(headerElement, new UserRankComponent(FILMS_QUANTITY), RenderPosition.BEFOREEND);
@@ -96,31 +78,59 @@ if (!films.length) {
 
   // При отображении фильмов нужно повесить обработчики событий на части элемента компонента фильма.
 
+  const renderFilmCards = (startFilmNumber, endFilmNumber) => {
+    const prevFilmsCount = showingFilmsCount;
+    showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
+
+    films.slice(prevFilmsCount, showingFilmsCount)
+
+      .forEach((film) => {
+        const filmCardComponent = new FilmCardComponent(film);
+        const filmDetailsComponent = new FilmDetailsComponent(film);
+
+        // Привязка функционала к каждому попапу фильма
+        bindClosingToPopup(filmDetailsComponent);
+
+        // Рендер карточек фильмов и привязка функционала
+        render(filmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
+        filmCardComponent.setLinksClickHandler();
+      });
+  };
+
 
   // Отобразим стартовое кол-во фильмов
   let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
   films.slice(0, showingFilmsCount)
+
     .forEach((film) => {
       const filmCardComponent = new FilmCardComponent(film);
       const filmDetailsComponent = new FilmDetailsComponent(film);
 
       // Привязка функционала к каждому попапу фильма
+      bindClosingToPopup(filmDetailsComponent);
 
       // Рендер карточек фильмов и привязка функционала
       render(filmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
       filmCardComponent.setLinksClickHandler();
-
-
     });
 
   // Добавим функционал для "Show more"
   showMoreButtonComponent.getElement().addEventListener(`click`, () => {
+
     const prevFilmsCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
 
     films.slice(prevFilmsCount, showingFilmsCount)
       .forEach((film) => {
-        render(filmsContainerElement, getFilm(film), RenderPosition.BEFOREEND);
+        const filmCardComponent = new FilmCardComponent(film);
+        const filmDetailsComponent = new FilmDetailsComponent(film);
+
+        // Привязка функционала к каждому попапу фильма
+        bindClosingToPopup(filmDetailsComponent);
+
+        // Рендер карточек фильмов и привязка функционала
+        render(filmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
+        filmCardComponent.setLinksClickHandler();
       });
 
     if (showingFilmsCount >= films.length) {
