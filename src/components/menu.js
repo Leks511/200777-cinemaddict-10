@@ -1,4 +1,4 @@
-import {createElement} from '../util';
+import AbstractComponent from './abstract-component';
 
 const createFilterMorkup = (filter) => {
   const {name, quantity} = filter;
@@ -33,25 +33,14 @@ const createMenuTemplate = (filters) => {
   );
 };
 
-export default class Menu {
+export default class Menu extends AbstractComponent {
   constructor(filters) {
-    this._element = null;
+    super();
+
     this._filters = filters;
   }
 
   getTemplate() {
     return createMenuTemplate(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
