@@ -1,52 +1,25 @@
-import NoDataTitleComponent from './components/no-data-title';
-import YesgDataTitleComponent from './components/yes-data-title';
-import FilmCardComponent from './components/film';
-import FilmDetailsComponent from './components/film-details';
+// Контроллеры
+import PageController from './controllers/page';
+
+// Компоненты
 import MenuComponent from './components/menu';
 import SortComponent from './components/sort';
-import BoardComponent from './components/board';
-import AllFimsComponent from './components/all-films';
-import ShowMoreButtonComponent from './components/show-more-button';
+import FilmsBoardComponent from './components/films-board';
 import UserRankComponent from './components/user-rank';
-import TopRatedFilmsComponent from './components/top-rated-films';
-import MostCommentedFilmsComponent from './components/most-commented-films';
 import FooterStatisticComponent from './components/footer-statistic';
 
 // Получим данные для их отображения в компонентах
 import {createFilmCardMocks} from './mock/film';
 import {createFilterMock} from './mock/filter';
 
-import {render, remove, RenderPosition} from './utils/render';
+// Вспомогательные функции
+import {render, RenderPosition} from './utils/render';
 
-const FILMS_QUANTITY = 30;
-const SHOWING_FILMS_COUNT_ON_START = 5;
-const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
-const ESC_CODE = 27;
+const FILMS_QUANTITY = 20;
 
 // Найдём элементы страницы для последующего использования
 const headerElement = document.querySelector(`.header`);
 const mainElement = document.querySelector(`.main`);
-
-// Объявим компоненты для последующего многоразового использования
-const boardComponent = new BoardComponent();
-const showMoreButtonComponent = new ShowMoreButtonComponent();
-
-// Функция, закрывающая попап фильма
-const bindClosingToPopup = (popupComponent) => {
-
-  // Функция прослушки нажатия ESC
-  const onPopupEscPress = (evt) => {
-    if (evt.keyCode === ESC_CODE) {
-      remove(popupComponent);
-      document.removeEventListener(`keydown`, onPopupEscPress);
-    }
-  };
-
-  // Добавим прослушку на закрытие попапа
-  document.addEventListener(`keydown`, onPopupEscPress);
-  popupComponent.setCloseButtonClickHandler(remove(popupComponent));
-};
-
 
 // Найдём элемент header и отрендерим туда рейтинг пользователя
 render(headerElement, new UserRankComponent(FILMS_QUANTITY), RenderPosition.BEFOREEND);
@@ -56,117 +29,16 @@ const filters = createFilterMock();
 render(mainElement, new MenuComponent(filters), RenderPosition.BEFOREEND);
 render(mainElement, new SortComponent(), RenderPosition.BEFOREEND);
 
-// Отобразим секцию для фильмов и найдём основные элементы
-render(mainElement, boardComponent, RenderPosition.BEFOREEND);
-const filmsSectionElement = mainElement.querySelector(`.films`);
-const filmsListElement = filmsSectionElement.querySelector(`.films-list`);
+// Рендеринг статистики в футере
+const footerElement = document.querySelector(`.footer`);
+render(footerElement, new FooterStatisticComponent(FILMS_QUANTITY), RenderPosition.BEFOREEND);
+
+// Рендеринг компонента доски с фильмами
+const filmsBoardComponent = new FilmsBoardComponent();
+render(mainElement, filmsBoardComponent, RenderPosition.BEFOREEND);
 
 // Получим данные фильмов и отобразим карточки определённое кол-во раз
 const films = createFilmCardMocks(FILMS_QUANTITY);
 
-if (!films.length) {
-  render(filmsListElement, new NoDataTitleComponent(), RenderPosition.BEFOREEND);
-} else {
-  // Найдём секцию с фильмами и отобразим туда все фильмы
-  const mainFilmsListElement = boardComponent.getElement().querySelector(`.films-list`);
-  render(mainFilmsListElement, new YesgDataTitleComponent(), RenderPosition.BEFOREEND);
-  render(mainFilmsListElement, new AllFimsComponent(), RenderPosition.BEFOREEND);
-  render(mainFilmsListElement, showMoreButtonComponent, RenderPosition.BEFOREEND);
-
-  const filmsContainerElement = mainFilmsListElement.querySelector(`.films-list__container`);
-
-
-  // Функция, навешивающая обработчики событий на части карточки фильма.
-  const renderFilmCards = (startFilmNumber, endFilmNumber) => {
-    films.slice(startFilmNumber, endFilmNumber)
-      .forEach((film) => {
-        const filmCardComponent = new FilmCardComponent(film);
-        const filmDetailsComponent = new FilmDetailsComponent(film);
-
-        // Привязка функционала к каждому попапу фильма
-        bindClosingToPopup(filmDetailsComponent);
-
-        // Рендер карточек фильмов и привязка функционала
-        render(filmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
-        filmCardComponent.setLinksClickHandler();
-      });
-  };
-
-
-  // Отобразим несколько фильмов при старте
-  let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-  renderFilmCards(0, showingFilmsCount);
-
-  // Функция добавления карточек на доску
-  const addFilmsToBoard = () => {
-    const prevFilmsCount = showingFilmsCount;
-    showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
-
-    renderFilmCards(prevFilmsCount, showingFilmsCount);
-
-    if (showingFilmsCount >= films.length) {
-      remove(showMoreButtonComponent);
-    }
-  };
-
-  // Добавим функционал для "Show more"
-  showMoreButtonComponent.setClickHandler(addFilmsToBoard);
-
-  // Функция для проверки фильмов с топовым рейтингом
-  // const checkTopRatedFilms = (filmsToCheck) => {
-  //   const topFilms = filmsToCheck
-  //     .slice()
-  //     .sort((a, b) => {
-  //       return b.rating - a.rating;
-  //     })
-  //     .slice(0, 2);
-
-  //   if (topFilms.length > 0) {
-  //     const filmCards = topFilms
-  //       .map((film) => getFilm(film));
-
-  //     const topRatedFilmsComponent = new TopRatedFilmsComponent();
-
-  //     render(filmsSectionElement, topRatedFilmsComponent, RenderPosition.BEFOREEND);
-
-  //     const filmContainerElement = topRatedFilmsComponent.querySelector(`.films-list__container`);
-
-  //     filmCards.forEach((film) => {
-  //       render(filmContainerElement, film, RenderPosition.BEFOREEND);
-  //     });
-  //   }
-  // };
-
-  // // Функция для проверки фильмов с наибольшим кол-вом комментариев
-  // const checkMostCommentedFilms = (filmsToCheck) => {
-  //   const topFilms = filmsToCheck
-  //     .slice()
-  //     .sort((a, b) => {
-  //       return b.comments - a.comments;
-  //     })
-  //     .slice(0, 2);
-
-  //   if (topFilms.length > 0) {
-  //     const filmCards = topFilms
-  //       .map((film) => getFilm(film));
-
-  //     const mostCommentedFilmsComponent = new MostCommentedFilmsComponent();
-
-  //     render(filmsSectionElement, mostCommentedFilmsComponent, RenderPosition.BEFOREEND);
-
-  //     const filmContainerElement = mostCommentedFilmsComponent.querySelector(`.films-list__container`);
-
-  //     filmCards.forEach((film) => {
-  //       render(filmContainerElement, film, RenderPosition.BEFOREEND);
-  //     });
-  //   }
-  // };
-
-  // // Проверим фильмы на определённые условия и отрендерим найденные
-  // checkTopRatedFilms(films);
-  // checkMostCommentedFilms(films);
-}
-
-// Рендеринг статистики в футере
-const footerElement = document.querySelector(`.footer`);
-render(footerElement, new FooterStatisticComponent(FILMS_QUANTITY), RenderPosition.BEFOREEND);
+const pageController = new PageController(filmsBoardComponent);
+pageController.render(films);
