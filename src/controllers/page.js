@@ -16,7 +16,7 @@ const bindClosingToPopup = (popupComponent) => {
 
   // Функция прослушки нажатия ESC
   const onPopupEscPress = (evt) => {
-    if (evt.keyCode === ESC_CODE) {
+    if (evt.key === `Escape` || `Esc`) {
       remove(popupComponent);
       document.removeEventListener(`keydown`, onPopupEscPress);
     }
@@ -26,9 +26,6 @@ const bindClosingToPopup = (popupComponent) => {
   document.addEventListener(`keydown`, onPopupEscPress);
   popupComponent.setCloseButtonClickHandler(remove(popupComponent));
 };
-
-
-
 
 export default class PageController {
   constructor(container) {
@@ -80,12 +77,10 @@ export default class PageController {
             const filmDetailsComponent = new FilmDetailsComponent(film);
 
             // Привязка функционала к каждому попапу фильма
-            bindClosingToPopup(filmDetailsComponent);
-
+            filmDetailsComponent.setCloseButtonClickHandler();
+            filmCardComponent.setLinksClickHandler();
             // Рендер карточек фильмов и привязка функционала
             render(mainFilmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
-
-            filmCardComponent.setLinksClickHandler();
           });
       };
 
