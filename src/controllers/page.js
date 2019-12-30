@@ -12,23 +12,24 @@ const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 // Функция, закрывающая попап фильма
-const bindClosingToPopup = (popupComponent) => {
+const bindClosingToPopup = (component) => {
 
   // Функция прослушки нажатия ESC
   const onPopupEscPress = (evt) => {
     if (evt.key === `Escape` || `Esc`) {
-      remove(popupComponent);
+      remove(component);
       document.removeEventListener(`keydown`, onPopupEscPress);
     }
   };
 
   // Добавим прослушку на закрытие попапа
   document.addEventListener(`keydown`, onPopupEscPress);
-  popupComponent.setCloseButtonClickHandler(remove(popupComponent));
+  component.setCloseButtonClickHandler(remove(component));
 };
 
 const showPopup = (popupComponent) => {
   render(document.body, popupComponent, RenderPosition.BEFOREEND);
+  popupComponent.setCloseButtonClickHandler(() => bindClosingToPopup(popupComponent));
 };
 
 export default class PageController {
@@ -77,6 +78,7 @@ export default class PageController {
 
             // Привязка функционала к каждому попапу фильма
             filmCardComponent.setLinksClickHandler(() => showPopup(filmDetailsComponent));
+
             // Рендер карточек фильмов и привязка функционала
             render(mainFilmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
           });
