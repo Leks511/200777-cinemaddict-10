@@ -27,6 +27,10 @@ const bindClosingToPopup = (popupComponent) => {
   popupComponent.setCloseButtonClickHandler(remove(popupComponent));
 };
 
+const showPopup = (popupComponent) => {
+  render(document.body, popupComponent, RenderPosition.BEFOREEND);
+};
+
 export default class PageController {
   constructor(container) {
     this._container = container;
@@ -47,10 +51,7 @@ export default class PageController {
     // Если фильмов - 0 , то отобразим сообщение об отсутствии
     if (!films.length) {
       render(container, this._notFoundFilmsComponent, RenderPosition.BEFOREEND);
-    }
-
-    // Иначе- отобразим содержимое на доску с фильмами
-    else {
+    } else {
       // Отображаем основной список и кнопку загрузки
       render(container, this._mainFilmsListComponent, RenderPosition.BEFOREEND);
       render(this._mainFilmsListComponent.getElement(), this._showMoreButtonComponent, RenderPosition.BEFOREEND);
@@ -67,18 +68,15 @@ export default class PageController {
       render(container, this._mostCommentedFilmsComponent, RenderPosition.BEFOREEND);
       const mostCommentedFilmsContainerElement = this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`);
 
-
-
       // Функция, навешивающая обработчики событий на части карточки фильма.
-      const renderFilmCards = (startFilmNumber, endFilmNumber, films) => {
-        films.slice(startFilmNumber, endFilmNumber)
+      const renderFilmCards = (startFilmNumber, endFilmNumber, filmsList) => {
+        filmsList.slice(startFilmNumber, endFilmNumber)
           .forEach((film) => {
             const filmCardComponent = new FilmCardComponent(film);
             const filmDetailsComponent = new FilmDetailsComponent(film);
 
             // Привязка функционала к каждому попапу фильма
-            filmDetailsComponent.setCloseButtonClickHandler();
-            filmCardComponent.setLinksClickHandler();
+            filmCardComponent.setLinksClickHandler(() => showPopup(filmDetailsComponent));
             // Рендер карточек фильмов и привязка функционала
             render(mainFilmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
           });
