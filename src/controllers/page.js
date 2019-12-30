@@ -11,26 +11,7 @@ import {render, remove, RenderPosition} from '../utils/render';
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
-// Функция, закрывающая попап фильма
-const bindClosingToPopup = (component) => {
-
-  // Функция прослушки нажатия ESC
-  const onPopupEscPress = (evt) => {
-    if (evt.key === `Escape` || `Esc`) {
-      remove(component);
-      document.removeEventListener(`keydown`, onPopupEscPress);
-    }
-  };
-
-  // Добавим прослушку на закрытие попапа
-  document.addEventListener(`keydown`, onPopupEscPress);
-  component.setCloseButtonClickHandler(remove(component));
-};
-
-const showPopup = (popupComponent) => {
-  render(document.body, popupComponent, RenderPosition.BEFOREEND);
-  popupComponent.setCloseButtonClickHandler(() => bindClosingToPopup(popupComponent));
-};
+const footerElement = document.querySelector(`.footer`);
 
 export default class PageController {
   constructor(container) {
@@ -71,13 +52,37 @@ export default class PageController {
 
       // Функция, навешивающая обработчики событий на части карточки фильма.
       const renderFilmCards = (startFilmNumber, endFilmNumber, filmsList) => {
+
         filmsList.slice(startFilmNumber, endFilmNumber)
           .forEach((film) => {
             const filmCardComponent = new FilmCardComponent(film);
             const filmDetailsComponent = new FilmDetailsComponent(film);
 
+            // Функция закрытия попапа
+            const closePopup = () => {
+              remove(filmDetailsComponent);
+            };
+
+            // Закрытие попапа по нажатию Esc
+            const onPopupEscPress = (evt) => {
+              const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+              if (isEscKey) {
+                closePopup();
+                document.removeEventListener(`keydown`, onPopupEscPress);
+              }
+            };
+
+            // Функция показа попапа
+            const showPopup = () => {
+              render(footerElement, filmDetailsComponent, RenderPosition.AFTEREND);
+
+              filmDetailsComponent.setCloseButtonClickHandler(closePopup);
+              document.addEventListener(`keydown`, onPopupEscPress);
+            };
+
             // Привязка функционала к каждому попапу фильма
-            filmCardComponent.setLinksClickHandler(() => showPopup(filmDetailsComponent));
+            filmCardComponent.setLinksClickHandler(() => showPopup());
 
             // Рендер карточек фильмов и привязка функционала
             render(mainFilmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
