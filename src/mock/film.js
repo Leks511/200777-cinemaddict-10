@@ -1,5 +1,5 @@
 import {FILM_NAMES, GENRES, POSTERS, DESCRIPTION, DIRECTORS, WRITERS, ACTORS, COUNTRIES, MONTHS} from './const';
-import {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription, getRandomDuration} from '../util';
+import {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription, getRandomDuration} from '../utils/common';
 
 const getReleaseDate = () => {
   return `${getRandomIntegerNumber(1, 31)} ${getRandomArrayItem(MONTHS)} ${getRandomIntegerNumber(0, 2020)} `;

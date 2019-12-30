@@ -1,4 +1,4 @@
-import {createElement} from "../util";
+import AbstractComponent from "./abstract-component";
 
 const createUserRankTemplate = (filmsQuantity) => {
   return (
@@ -9,25 +9,14 @@ const createUserRankTemplate = (filmsQuantity) => {
   );
 };
 
-export default class UserRank {
+export default class UserRank extends AbstractComponent {
   constructor(filmsCount) {
+    super();
+
     this._filmsCount = filmsCount;
-    this._element = null;
   }
 
   getTemplate() {
     return createUserRankTemplate(this._filmsCount);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
