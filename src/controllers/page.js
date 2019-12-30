@@ -11,6 +11,11 @@ import {render, remove, RenderPosition} from '../utils/render';
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
+const FilmParametres = {
+  RATING: `rating`,
+  COMMENTS: `comments`
+};
+
 const footerElement = document.querySelector(`.footer`);
 
 export default class PageController {
@@ -51,7 +56,7 @@ export default class PageController {
       const mostCommentedFilmsContainerElement = this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`);
 
       // Функция, навешивающая обработчики событий на части карточки фильма.
-      const renderFilmCards = (startFilmNumber, endFilmNumber, filmsList) => {
+      const renderFilmCards = (startFilmNumber, endFilmNumber, filmsList, filmsContainer) => {
 
         filmsList.slice(startFilmNumber, endFilmNumber)
           .forEach((film) => {
@@ -85,44 +90,29 @@ export default class PageController {
             filmCardComponent.setLinksClickHandler(() => showPopup());
 
             // Рендер карточек фильмов и привязка функционала
-            render(mainFilmsContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
+            render(filmsContainer, filmCardComponent, RenderPosition.BEFOREEND);
           });
       };
 
       // Отобразим несколько фильмов при старте
       let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-      renderFilmCards(0, showingFilmsCount, this._films);
+      renderFilmCards(0, showingFilmsCount, this._films, mainFilmsContainerElement);
 
 
-      // Функция нахождения фильмов с топовым рейтингом
-      const checkTopRatedFilms = (filmsToCheck) => {
-        filmsToCheck
+      // Функция для рендеринга фильмов в доп. секциях по определённому параметру
+      const checkFilmsOnParam = (filmsToCheck, paramToCheck, containerToRender) => {
+        const filmsList = filmsToCheck
           .slice()
           .sort((a, b) => {
-            return b.rating - a.rating;
-          })
-          .slice(0, 2)
-          .map((film) => {
-            render(topRatedFilmsContainerElement, new FilmCardComponent(film), RenderPosition.BEFOREEND);
+            return b[paramToCheck] - a[paramToCheck];
           });
+
+        renderFilmCards(0, 2, filmsList, containerToRender);
       };
 
-      // Функция для проверки фильмов с наибольшим кол-вом комментариев
-      const checkMostCommentedFilms = (filmsToCheck) => {
-        filmsToCheck
-          .slice()
-          .sort((a, b) => {
-            return b.comments - a.comments;
-          })
-          .slice(0, 2)
-          .map((film) => {
-            render(mostCommentedFilmsContainerElement, new FilmCardComponent(film), RenderPosition.BEFOREEND);
-          });
-      };
-
-      // Проверим фильмы на определённые условия и отрендерим найденные
-      checkTopRatedFilms(this._films);
-      checkMostCommentedFilms(films);
+      // Отрендерим фильмы в доп. секциях по параметрам
+      checkFilmsOnParam(this._films, FilmParametres.RATING, topRatedFilmsContainerElement);
+      checkFilmsOnParam(this._films, FilmParametres.COMMENTS, mostCommentedFilmsContainerElement);
 
 
       // Функция добавления карточек на доску по нажатию
