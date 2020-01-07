@@ -14,7 +14,7 @@ import {createFilterMock} from './mock/filter';
 // Вспомогательные функции
 import {render, RenderPosition} from './utils/render';
 
-const FILMS_QUANTITY = 20;
+const FILMS_QUANTITY = 15;
 
 // Найдём элементы страницы для последующего использования
 const headerElement = document.querySelector(`.header`);
