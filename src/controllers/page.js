@@ -1,3 +1,4 @@
+import SortComponent from '../components/sort';
 import NotFoundFilmsComponent from '../components/not-found-films';
 import FilmCardComponent from '../components/film';
 import FilmDetailsComponent from '../components/film-details';
@@ -11,6 +12,8 @@ import {render, remove, RenderPosition} from '../utils/render';
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
+const mainElement = document.querySelector(`.main`);
+
 const FilmParametres = {
   RATING: `rating`,
   COMMENTS: `comments`
@@ -21,6 +24,8 @@ const footerElement = document.querySelector(`.footer`);
 export default class PageController {
   constructor(container) {
     this._container = container;
+
+    this._sortComponent = new SortComponent();
 
     this._mainFilmsListComponent = new MainFilmsListComponent();
     this._notFoundFilmsComponent = new NotFoundFilmsComponent();
@@ -34,6 +39,9 @@ export default class PageController {
     this._films = films;
 
     const container = this._container.getElement();
+
+    // При рендеринге фильмов сразу рендерим сортировку
+    render(mainElement, this._sortComponent, RenderPosition.BEFOREEND);
 
     // Если фильмов - 0 , то отобразим сообщение об отсутствии
     if (!films.length) {

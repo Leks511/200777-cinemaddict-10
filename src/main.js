@@ -3,7 +3,6 @@ import PageController from './controllers/page';
 
 // Компоненты
 import MenuComponent from './components/menu';
-import SortComponent from './components/sort';
 import FilmsBoardComponent from './components/films-board';
 import UserRankComponent from './components/user-rank';
 import FooterStatisticComponent from './components/footer-statistic';
@@ -27,18 +26,19 @@ render(headerElement, new UserRankComponent(FILMS_QUANTITY), RenderPosition.BEFO
 // Получим данные фильтров и отрендерим в main меню с фильтрами
 const filters = createFilterMock();
 render(mainElement, new MenuComponent(filters), RenderPosition.BEFOREEND);
-render(mainElement, new SortComponent(), RenderPosition.BEFOREEND);
 
 // Рендеринг статистики в футере
 const footerElement = document.querySelector(`.footer`);
 render(footerElement, new FooterStatisticComponent(FILMS_QUANTITY), RenderPosition.BEFOREEND);
 
-// Рендеринг компонента доски с фильмами
-const filmsBoardComponent = new FilmsBoardComponent();
-render(mainElement, filmsBoardComponent, RenderPosition.BEFOREEND);
-
 // Получим данные фильмов и отобразим карточки определённое кол-во раз
 const films = createFilmCardMocks(FILMS_QUANTITY);
 
+// Рендеринг компонента доски с фильмами
+const filmsBoardComponent = new FilmsBoardComponent();
+
 const pageController = new PageController(filmsBoardComponent);
 pageController.render(films);
+
+// Наполнив в компонент доски фильмами в PageController'е, выведем его на экран в mainElement'е
+render(mainElement, filmsBoardComponent, RenderPosition.BEFOREEND);
