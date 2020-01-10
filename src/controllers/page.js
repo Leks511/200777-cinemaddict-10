@@ -1,7 +1,5 @@
 import SortComponent, {SortType} from '../components/sort';
 import NotFoundFilmsComponent from '../components/not-found-films';
-import FilmCardComponent from '../components/film';
-import FilmDetailsComponent from '../components/film-details';
 import TopRatedFilmsComponent from '../components/top-rated-films';
 import MostCommentedFilmsComponent from '../components/most-commented-films';
 import ShowMoreButtonComponent from '../components/show-more-button';
@@ -23,37 +21,7 @@ const footerElement = document.querySelector(`.footer`);
 
 // Функция рендеринга фильма
 const renderFilmCard = (filmCardsContainer, film) => {
-  const filmCardComponent = new FilmCardComponent(film);
-  const filmDetailsComponent = new FilmDetailsComponent(film);
 
-  // Функция закрытия попапа
-  const closePopup = () => {
-    remove(filmDetailsComponent);
-  };
-
-  // Закрытие попапа по нажатию Esc
-  const onPopupEscPress = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      closePopup();
-      document.removeEventListener(`keydown`, onPopupEscPress);
-    }
-  };
-
-  // Функция показа попапа
-  const showPopup = () => {
-    render(footerElement, filmDetailsComponent, RenderPosition.AFTEREND);
-
-    filmDetailsComponent.setCloseButtonClickHandler(closePopup);
-    document.addEventListener(`keydown`, onPopupEscPress);
-  };
-
-  // Привязка функционала к каждому попапу фильма
-  filmCardComponent.setLinksClickHandler(() => showPopup());
-
-  // Рендер карточек фильмов и привязка функционала
-  render(filmCardsContainer, filmCardComponent, RenderPosition.BEFOREEND);
 };
 
 // Функция рендеринга фильмов
