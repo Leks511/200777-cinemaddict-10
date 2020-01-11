@@ -5,6 +5,8 @@ import MostCommentedFilmsComponent from '../components/most-commented-films';
 import ShowMoreButtonComponent from '../components/show-more-button';
 import MainFilmsListComponent from '../components/main-films-list';
 
+import MovieController from './movie';
+
 import {render, remove, RenderPosition} from '../utils/render';
 
 const SHOWING_FILMS_COUNT_ON_START = 5;
@@ -17,17 +19,12 @@ const FilmParametres = {
   COMMENTS: `comments`
 };
 
-const footerElement = document.querySelector(`.footer`);
-
-// Функция рендеринга фильма
-const renderFilmCard = (filmCardsContainer, film) => {
-
-};
 
 // Функция рендеринга фильмов
 const renderFilmCards = (filmCardsContainer, films) => {
   films.forEach((film) => {
-    renderFilmCard(filmCardsContainer, film);
+    const movieController = new MovieController(filmCardsContainer);
+    movieController.render(film);
   });
 };
 
