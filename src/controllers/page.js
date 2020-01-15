@@ -44,6 +44,8 @@ export default class PageController {
   constructor(container) {
     this._container = container;
 
+    this._films = [];
+
     this._sortComponent = new SortComponent();
 
     this._mainFilmsListComponent = new MainFilmsListComponent();
@@ -55,6 +57,8 @@ export default class PageController {
   }
 
   render(films) {
+    this._films = films;
+
     const container = this._container.getElement();
 
     // При рендеринге фильмов сразу рендерим сортировку
@@ -157,5 +161,11 @@ export default class PageController {
       // Добавим функционал для "Show more"
       this._showMoreButtonComponent.setClickHandler(showMoreFilms);
     }
+  }
+
+  _onDataChange(filmController, oldData, newData) {
+    const index = this._films.findIndex((it) => it === oldData);
+
+    console.log(oldData);
   }
 }
