@@ -15,8 +15,6 @@ export default class MovieController {
     // Пока - заглушки
     this._filmCardComponent = null;
     this._filmDetailsComponent = null;
-
-    this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
 
   render(film) {
@@ -28,33 +26,59 @@ export default class MovieController {
     this._filmCardComponent = new FilmCardComponent(film);
     this._filmDetailsComponent = new FilmDetailsComponent(film);
 
+    // Функция показа попапа
+    const showPopup = () => {
+      render(footerElement, this._filmDetailsComponent, RenderPosition.AFTEREND);
+
+      this._filmDetailsComponent.setCloseButtonClickHandler(closePopup);
+      document.addEventListener(`keydown`, onEscKeyDown);
+    };
+
+    // Функция закрытия попапа
+    const closePopup = () => {
+      remove(this._filmDetailsComponent);
+    };
+
+    // Закрытие попапа по нажатию Esc
+    const onEscKeyDown = (evt) => {
+      const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+      if (isEscKey) {
+        closePopup();
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      }
+    };
+
     // По клику на элементы карты покажем попап
-    this._filmCardComponent.setLinksClickHandler(() => this._showPopup());
+    this._filmCardComponent.setLinksClickHandler(() => showPopup());
+
+    this._filmCardComponent.setAddToWatchlistButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      this._onDataChange(this, film, Object.assign({}, film, {
+        inWatchlist: !film.inWatchlist,
+      }));
+    });
+
+    this._filmCardComponent.setMarkAsWatchedButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isWatched: !film.isWatched,
+      }));
+    });
+
+    this._filmCardComponent.setMarkAsFavoriteButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isFavorite: !film.isFavorite,
+      }));
+    });
 
     // Отрендерим фильм
     render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
   }
 
-  // Функция закрытия попапа
-  _closePopup() {
-    remove(this._filmDetailsComponent);
-  }
 
-  // Функция показа попапа
-  _showPopup() {
-    render(footerElement, this._filmDetailsComponent, RenderPosition.AFTEREND);
-
-    this._filmDetailsComponent.setCloseButtonClickHandler(this._closePopup);
-    document.addEventListener(`keydown`, this._onEscKeyDown);
-  }
-
-  // Закрытие попапа по нажатию Esc
-  _onEscKeyDown(evt) {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      this._closePopup();
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
-    }
-  }
 }

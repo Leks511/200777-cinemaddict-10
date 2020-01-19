@@ -1,10 +1,8 @@
-import AbstractComponent from './abstract-component';
+import AbstractSmartComponent from './abstract-smart-component';
 
 const createGenresMorkup = (genres) => {
   return genres.map((genre) => {
-    return (`
-    <span class="film-details__genre">${genre}</span>
-    `);
+    return `<span class="film-details__genre">${genre}</span>`;
   }).join(``);
 };
 
@@ -235,7 +233,7 @@ const createFilmDetailsTemplate = (details) => {
   );
 };
 
-export default class FilmDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractSmartComponent {
   constructor(film) {
     super();
 
@@ -264,5 +262,9 @@ export default class FilmDetails extends AbstractComponent {
   setMarkAsFavoriteButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, handler);
+  }
+
+  recoveryListeners() {
+
   }
 }
