@@ -49,9 +49,12 @@ export default class MovieController {
       }
     };
 
+
     // По клику на элементы карты покажем попап
     this._filmCardComponent.setLinksClickHandler(() => showPopup());
 
+
+    // Опишем обработчики на кнопках карточки фильма
     this._filmCardComponent.setAddToWatchlistButtonClickHandler((evt) => {
       evt.preventDefault();
 
@@ -76,9 +79,15 @@ export default class MovieController {
       }));
     });
 
+
+    // Опишем обработчики на кнопках попапа
+    this._filmDetailsComponent.setMarkAsWatchedButtonClickHandler(() => {
+      film.isWatched = !film.isWatched;
+    });
+
+
     // Отрендерим фильм
     render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
   }
-
 
 }

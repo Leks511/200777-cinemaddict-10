@@ -179,15 +179,10 @@ export default class PageController {
       return;
     }
 
-    console.log(this._films[index]);
-
     this._films = [].concat(
         this._films.slice(0, index),
         newData,
         this._films.slice(index + 1));
-
-
-
 
     filmController.render(this._films[index]);
   }
