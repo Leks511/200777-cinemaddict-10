@@ -23,3 +23,7 @@ export const getRandomDuration = () => {
 
   return `${targetDate.getHours()}h ${targetDate.getMinutes()}m`;
 };
+
+export const getRandomBoolean = () => {
+  return Math.random() > 0.5;
+};

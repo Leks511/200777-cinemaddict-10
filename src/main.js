@@ -40,5 +40,13 @@ const filmsBoardComponent = new FilmsBoardComponent();
 const pageController = new PageController(filmsBoardComponent);
 pageController.render(films);
 
-// Наполнив в компонент доски фильмами в PageController'е, выведем его на экран в mainElement'е
+// Наполнив компонент доски фильмами в PageController'е, выведем его на экран в mainElement'е
 render(mainElement, filmsBoardComponent, RenderPosition.BEFOREEND);
+
+
+/*
+Курс завален, но задания для дальнейшего выполнения лучше открыть
+
+Модуль 6 - таск 1
+
+*/

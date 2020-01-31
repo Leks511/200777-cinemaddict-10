@@ -1,11 +1,11 @@
 import SortComponent, {SortType} from '../components/sort';
 import NotFoundFilmsComponent from '../components/not-found-films';
-import FilmCardComponent from '../components/film';
-import FilmDetailsComponent from '../components/film-details';
 import TopRatedFilmsComponent from '../components/top-rated-films';
 import MostCommentedFilmsComponent from '../components/most-commented-films';
 import ShowMoreButtonComponent from '../components/show-more-button';
 import MainFilmsListComponent from '../components/main-films-list';
+
+import MovieController from './movie';
 
 import {render, remove, RenderPosition} from '../utils/render';
 
@@ -19,47 +19,12 @@ const FilmParametres = {
   COMMENTS: `comments`
 };
 
-const footerElement = document.querySelector(`.footer`);
-
-// Функция рендеринга фильма
-const renderFilmCard = (filmCardsContainer, film) => {
-  const filmCardComponent = new FilmCardComponent(film);
-  const filmDetailsComponent = new FilmDetailsComponent(film);
-
-  // Функция закрытия попапа
-  const closePopup = () => {
-    remove(filmDetailsComponent);
-  };
-
-  // Закрытие попапа по нажатию Esc
-  const onPopupEscPress = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      closePopup();
-      document.removeEventListener(`keydown`, onPopupEscPress);
-    }
-  };
-
-  // Функция показа попапа
-  const showPopup = () => {
-    render(footerElement, filmDetailsComponent, RenderPosition.AFTEREND);
-
-    filmDetailsComponent.setCloseButtonClickHandler(closePopup);
-    document.addEventListener(`keydown`, onPopupEscPress);
-  };
-
-  // Привязка функционала к каждому попапу фильма
-  filmCardComponent.setLinksClickHandler(() => showPopup());
-
-  // Рендер карточек фильмов и привязка функционала
-  render(filmCardsContainer, filmCardComponent, RenderPosition.BEFOREEND);
-};
 
 // Функция рендеринга фильмов
-const renderFilmCards = (filmCardsContainer, films) => {
+const renderFilmCards = (filmCardsContainer, films, onDataChange) => {
   films.forEach((film) => {
-    renderFilmCard(filmCardsContainer, film);
+    const movieController = new MovieController(filmCardsContainer, onDataChange);
+    movieController.render(film);
   });
 };
 
@@ -79,6 +44,8 @@ export default class PageController {
   constructor(container) {
     this._container = container;
 
+    this._films = [];
+
     this._sortComponent = new SortComponent();
 
     this._mainFilmsListComponent = new MainFilmsListComponent();
@@ -87,9 +54,13 @@ export default class PageController {
 
     this._topRatedFilmsComponent = new TopRatedFilmsComponent();
     this._mostCommentedFilmsComponent = new MostCommentedFilmsComponent();
+
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   render(films) {
+    this._films = films;
+
     const container = this._container.getElement();
 
     // При рендеринге фильмов сразу рендерим сортировку
@@ -107,7 +78,8 @@ export default class PageController {
 
         renderFilmCards(
             mainFilmsContainerElement,
-            films.slice(prevFilmsCount, showingFilmsCount)
+            films.slice(prevFilmsCount, showingFilmsCount),
+            this._onDataChange
         );
 
         if (showingFilmsCount >= films.length) {
@@ -151,7 +123,10 @@ export default class PageController {
 
         mainFilmsContainerElement.innerHTML = ``;
 
-        renderFilmCards(mainFilmsContainerElement, sortedFilms);
+        renderFilmCards(
+            mainFilmsContainerElement,
+            sortedFilms,
+            this._onDataChange);
 
         // Если сортировка была по дефолту, то отобразим кнопку. Нет - удалим
         if (sortType === SortType.DEFAULT) {
@@ -163,7 +138,10 @@ export default class PageController {
 
       // Отобразим несколько фильмов при старте
       let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-      renderFilmCards(mainFilmsContainerElement, films.slice(0, showingFilmsCount));
+      renderFilmCards(
+          mainFilmsContainerElement,
+          films.slice(0, showingFilmsCount),
+          this._onDataChange);
 
       // Отображаем основной список и кнопку загрузки
       render(container, this._mainFilmsListComponent, RenderPosition.BEFOREEND);
@@ -192,5 +170,20 @@ export default class PageController {
       // Добавим функционал для "Show more"
       this._showMoreButtonComponent.setClickHandler(showMoreFilms);
     }
+  }
+
+  _onDataChange(filmController, oldData, newData) {
+    const index = this._films.findIndex((it) => it === oldData);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._films = [].concat(
+        this._films.slice(0, index),
+        newData,
+        this._films.slice(index + 1));
+
+    filmController.render(this._films[index]);
   }
 }

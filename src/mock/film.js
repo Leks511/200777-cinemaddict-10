@@ -1,5 +1,5 @@
 import {FILM_NAMES, GENRES, POSTERS, DESCRIPTION, DIRECTORS, WRITERS, ACTORS, COUNTRIES, MONTHS} from './const';
-import {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription, getRandomDuration} from '../utils/common';
+import {getRandomArrayItem, getRandomIntegerNumber, getRandomArrayItems, getRandomDescription, getRandomDuration, getRandomBoolean} from '../utils/common';
 
 const getReleaseDate = () => {
   return `${getRandomIntegerNumber(1, 31)} ${getRandomArrayItem(MONTHS)} ${getRandomIntegerNumber(0, 2020)} `;
@@ -25,6 +25,9 @@ const createFilmCardMock = () => {
     comments: getRandomIntegerNumber(0, 100),
     ageRating: getRandomIntegerNumber(0, 100),
     country: getRandomArrayItem(COUNTRIES),
+    inWatchlist: getRandomBoolean(),
+    isWatched: getRandomBoolean(),
+    isFavorite: getRandomBoolean(),
   };
 };
 
