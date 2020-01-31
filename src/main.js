@@ -53,5 +53,6 @@ render(mainElement, filmsBoardComponent, RenderPosition.BEFOREEND);
 Модуль 7 - таск 2
 Модуль 8 - таск 1
 Модуль 8 - таск 2
+Модуль 9 - таск 1
 
 */
