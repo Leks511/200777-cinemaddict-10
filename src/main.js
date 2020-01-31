@@ -48,5 +48,6 @@ render(mainElement, filmsBoardComponent, RenderPosition.BEFOREEND);
 Курс завален, но задания для дальнейшего выполнения лучше открыть
 
 Модуль 6 - таск 1
+Модуль 6 - таск 2
 
 */
