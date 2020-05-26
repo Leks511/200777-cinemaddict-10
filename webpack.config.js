@@ -10,6 +10,7 @@ module.exports = {
   devtool: `source-map`,
   devServer: {
     contentBase: path.join(__dirname, `public`),
+    compress: true,
     watchContentBase: true,
   }
 };
