@@ -2,7 +2,8 @@ import {
   getRandomIntegerNumber,
   getRandomArrayItem,
   getRandomDate,
-  getRandomBoolean
+  getRandomBoolean,
+  getRandomArrayItems
 } from "../utils";
 
 const FILM_NAMES = [
@@ -10,7 +11,7 @@ const FILM_NAMES = [
   `Второй`,
   `NodeJS`,
   `Deno`,
-  `React выучим`,
+  `Идём на React`,
   `Забыл название`,
   `Какой-то фильм`,
   `Десятый`,
@@ -43,6 +44,25 @@ const GENRES = [
   `Mystery`
 ];
 
+const PERSONS = [
+  `Anne Wigton`,
+  `Heinz Herald`,
+  `Richard Weil`,
+  `Anthony Mann`,
+  `Erich von Stroheim`,
+  `Mary Beth Hughes`,
+  `Dan Duryea`
+];
+
+const COUNTRIES = [
+  `USA`,
+  `Angola`,
+  `USSR`,
+  `Austria`,
+  `Scotland`,
+  `Canada`
+];
+
 const getRandomDescription = () => {
   return DESCRIPTION
     .slice()
@@ -53,16 +73,23 @@ const getRandomDescription = () => {
 export const generateFilm = () => {
   return {
     title: getRandomArrayItem(FILM_NAMES),
+    originalTitle: getRandomArrayItem(FILM_NAMES),
     rating: getRandomIntegerNumber(0, 10),
-    year: getRandomIntegerNumber(1900, 2020),
+    userRating: getRandomIntegerNumber(0, 10),
+    director: getRandomArrayItem(PERSONS),
+    writers: getRandomArrayItems(PERSONS),
+    actors: getRandomArrayItems(PERSONS),
+    releaseDate: getRandomIntegerNumber(1900, 2020),
     duration: getRandomDate(),
-    genre: getRandomArrayItem(GENRES),
+    country: getRandomArrayItem(COUNTRIES),
+    genres: getRandomArrayItems(GENRES),
     poster: getRandomArrayItem(POSTERS),
     description: getRandomDescription(),
     commentsCount: getRandomIntegerNumber(0, 50),
     inWatchlist: getRandomBoolean(),
     isWatched: getRandomBoolean(),
     isFavorite: getRandomBoolean(),
+    age: getRandomIntegerNumber(1, 30),
   };
 };
 

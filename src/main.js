@@ -1,3 +1,4 @@
+/* eslint-disable no-multiple-empty-lines */
 import {createProfileTemplate} from "./components/profile";
 import {createMenuTemplate} from "./components/menu";
 import {createSortTemplate} from "./components/sort";
@@ -16,45 +17,85 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const FILMS_COUNT = 26;
+const FILMS_COUNT = 11;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
+
+// Массив фильмов
+const films = generateFilms(FILMS_COUNT);
 
 const headerElement = document.querySelector(`.header`);
 const mainElement = document.querySelector(`.main`);
 const footerElement = document.querySelector(`.footer`);
 
-render(headerElement, createProfileTemplate(), `beforeend`);
+render(headerElement, createProfileTemplate(films), `beforeend`);
 
-render(mainElement, createMenuTemplate(), `beforeend`);
+render(mainElement, createMenuTemplate(films), `beforeend`);
 render(mainElement, createSortTemplate(), `beforeend`);
 render(mainElement, createContentTemplate(), `beforeend`);
 
 const filmsContentElement = mainElement.querySelector(`.films`);
 
 render(filmsContentElement, createMainFimsListTemplate(), `beforeend`);
-render(filmsContentElement, createTopRatedFilmsListTemplate(), `beforeend`);
-render(filmsContentElement, createMostCommentedFilmsListTemplate(), `beforeend`);
 
 const mainFilmsSectionElement = filmsContentElement.querySelector(`.films-list`);
 
 const mainFilmsListElement = mainFilmsSectionElement.querySelector(`.films-list__container`);
-const films = generateFilms(SHOWING_FILMS_COUNT_ON_START);
-films.forEach((film) => render(mainFilmsListElement, createFilmCardTemplate(film), `beforeend`));
 
-render(mainFilmsSectionElement, createShowMoreButtonTemplate(), `beforeend`);
 
-const extraFilmsListElements = filmsContentElement.querySelectorAll(`.films-list--extra`);
+// Функционал кнопки
 
-const topRatedFilmsListElement = extraFilmsListElements[0].querySelector(`.films-list__container`);
-films
-  .slice(0, 2)
-  .forEach((film) => render(topRatedFilmsListElement, createFilmCardTemplate(film), `beforeend`));
+let showingFilms = SHOWING_FILMS_COUNT_ON_START;
+films.slice(0, showingFilms)
+  .forEach((film) => render(mainFilmsListElement, createFilmCardTemplate(film), `beforeend`));
 
-const mostCommentedFilmsListElement = extraFilmsListElements[1].querySelector(`.films-list__container`);
-films
-  .slice(0, 2)
-  .forEach((film) => render(mostCommentedFilmsListElement, createFilmCardTemplate(film), `beforeend`));
+if (films.length > SHOWING_FILMS_COUNT_BY_BUTTON) {
+  render(mainFilmsSectionElement, createShowMoreButtonTemplate(), `beforeend`);
 
-render(footerElement, createStatisticTemplate(), `beforeend`);
-// render(footerElement, createFilmDetailsTemplate(), `afterend`);
+  const showMoreButton = mainFilmsSectionElement.querySelector(`.films-list__show-more`);
+  showMoreButton.addEventListener(`click`, () => {
+    films.slice(showingFilms, showingFilms += SHOWING_FILMS_COUNT_BY_BUTTON)
+      .forEach((film) => render(mainFilmsListElement, createFilmCardTemplate(film), `beforeend`));
+
+    if (showingFilms >= films.length) {
+      showMoreButton.remove();
+    }
+  });
+}
+
+
+// Top rated
+const topRatedFilms = films
+  .slice()
+  .filter((film) => film.rating > 0)
+  .sort((a, b) => b.rating - a.rating);
+
+if (topRatedFilms.length) {
+  render(filmsContentElement, createTopRatedFilmsListTemplate(), `beforeend`);
+
+  const topRatedFilmsListElement = Array.from(filmsContentElement.querySelectorAll(`h2`)).filter((element) => element.textContent === `Top rated`)[0].parentElement.querySelector(`.films-list__container`);
+
+  topRatedFilms
+    .slice(0, 2)
+    .forEach((film) => render(topRatedFilmsListElement, createFilmCardTemplate(film), `beforeend`));
+}
+
+// Most commented
+const mostCommentedFilms = films
+  .slice()
+  .filter((film) => film.commentsCount > 0)
+  .sort((a, b) => b.commentsCount - a.commentsCount);
+
+if (mostCommentedFilms.length) {
+  render(filmsContentElement, createMostCommentedFilmsListTemplate(), `beforeend`);
+
+  const mostCommentedFilmsListElement = Array.from(filmsContentElement.querySelectorAll(`h2`)).filter((element) => element.textContent === `Most commented`)[0].parentElement.querySelector(`.films-list__container`);
+
+  mostCommentedFilms
+    .slice(0, 2)
+    .forEach((film) => render(mostCommentedFilmsListElement, createFilmCardTemplate(film), `beforeend`));
+}
+
+
+render(footerElement, createStatisticTemplate(films), `beforeend`);
+// render(footerElement, createFilmDetailsTemplate(films[0]), `afterend`);

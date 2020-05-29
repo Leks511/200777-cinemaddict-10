@@ -21,3 +21,8 @@ export const getRandomDate = () => {
 export const getRandomBoolean = () => {
   return Math.random() > 0.5 ? true : false;
 };
+
+export const getRandomArrayItems = (array) => {
+  return array
+    .slice(0, getRandomIntegerNumber(1, 3));
+};
