@@ -26,3 +26,10 @@ export const getRandomArrayItems = (array) => {
   return array
     .slice(0, getRandomIntegerNumber(1, 3));
 };
+
+export const createElement = (markup) => {
+  const div = document.createElement(`div`);
+  div.innerHTML = markup;
+
+  return div.firstChild;
+};

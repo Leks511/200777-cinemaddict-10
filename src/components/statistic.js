@@ -1,4 +1,6 @@
-export const createStatisticTemplate = (films) => {
+import {createElement} from "../utils";
+
+const createStatisticTemplate = (films) => {
   const allFilmsCount = films.length;
 
   return (
@@ -7,3 +9,22 @@ export const createStatisticTemplate = (films) => {
     </section>`
   );
 };
+
+export default class Statistic {
+  constructor(data) {
+    this._data = data;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createStatisticTemplate(this._data);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+}

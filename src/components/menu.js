@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const FILM_PARAMETERS = {
   WATCHLIST: `inWatchlist`,
   HISTORY: `isWatched`,
@@ -8,7 +10,7 @@ const getFilmsWithParameter = (films, parameter) => {
   return films.filter((film) => film[parameter]).length;
 };
 
-export const createMenuTemplate = (films) => {
+const createMenuTemplate = (films) => {
   const inWatchlistCount = getFilmsWithParameter(films, FILM_PARAMETERS.WATCHLIST);
   const inHistoryCount = getFilmsWithParameter(films, FILM_PARAMETERS.HISTORY);
   const inFavoritesCount = getFilmsWithParameter(films, FILM_PARAMETERS.FAVORITES);
@@ -25,4 +27,25 @@ export const createMenuTemplate = (films) => {
   );
 };
 
+export default class Menu {
+  constructor(data) {
+    this._data = data;
+    this._element = null;
+  }
 
+  getTemplate() {
+    return createMenuTemplate(this._data);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,9 +1,11 @@
+import {createElement} from "../utils";
+
 const generateGenresMarkup = (genres) => {
   return genres
     .map((genre) => `<span class="film-details__genre">${genre}</span>`);
 };
 
-export const createFilmDetailsTemplate = ({
+const createFilmDetailsTemplate = ({
   title,
   originalTitle,
   rating,
@@ -213,3 +215,26 @@ export const createFilmDetailsTemplate = ({
     </section>`
   );
 };
+
+export default class FilmDetails {
+  constructor(data) {
+    this._data = data;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._data);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

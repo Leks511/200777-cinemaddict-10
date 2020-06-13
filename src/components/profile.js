@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const getProfileRating = (count) => {
   let rating;
 
@@ -17,7 +19,7 @@ const getProfileRating = (count) => {
 };
 
 
-export const createProfileTemplate = (films) => {
+const createProfileTemplate = (films) => {
   const watchedFilms = films.filter((film) => film.isWatched).length;
   const userRating = watchedFilms ? getProfileRating(watchedFilms) : ``;
   return (
@@ -27,3 +29,26 @@ export const createProfileTemplate = (films) => {
     </section>`
   );
 };
+
+export default class Profile {
+  constructor(data) {
+    this._data = data;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createProfileTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
