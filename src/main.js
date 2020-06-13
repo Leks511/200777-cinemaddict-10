@@ -11,7 +11,7 @@ import ShowMoreButton from "./components/show-more-button";
 import FilmCard from "./components/film-card";
 import Statistic from "./components/statistic";
 import NoData from "./components/no-data";
-// import FilmDetails from "./components/film-details";
+import FilmDetails from "./components/film-details";
 
 import {generateFilms} from "./mocks/film-card";
 
@@ -34,6 +34,13 @@ render(mainElement, new Content().getElement(), RENDER_POSITION.BEFOREEND);
 
 const filmsContentElement = mainElement.querySelector(`.films`);
 
+const renderFilm = (filmData, filmsList) => {
+  const filmCard = new FilmCard(filmData).getElement();
+  const filmDetails = new FilmDetails(filmData).getElement();
+
+  render(filmsList, filmCard, RENDER_POSITION.BEFOREEND);
+};
+
 if (films.length) {
   render(filmsContentElement, new MainFimsList().getElement(), RENDER_POSITION.BEFOREEND);
 
@@ -46,7 +53,7 @@ if (films.length) {
 
   let showingFilms = SHOWING_FILMS_COUNT_ON_START;
   films.slice(0, showingFilms)
-    .forEach((film) => render(mainFilmsListElement, new FilmCard(film).getElement(), RENDER_POSITION.BEFOREEND));
+    .forEach((film) => renderFilm(film, mainFilmsListElement));
 
   if (films.length > SHOWING_FILMS_COUNT_BY_BUTTON) {
     render(mainFilmsSectionElement, new ShowMoreButton().getElement(), RENDER_POSITION.BEFOREEND);
@@ -54,7 +61,7 @@ if (films.length) {
     const showMoreButton = mainFilmsSectionElement.querySelector(`.films-list__show-more`);
     showMoreButton.addEventListener(`click`, () => {
       films.slice(showingFilms, showingFilms += SHOWING_FILMS_COUNT_BY_BUTTON)
-        .forEach((film) => render(mainFilmsListElement, new FilmCard(film).getElement(), RENDER_POSITION.BEFOREEND));
+        .forEach((film) => renderFilm(film, mainFilmsListElement));
 
       if (showingFilms >= films.length) {
         showMoreButton.remove();
@@ -76,7 +83,7 @@ if (films.length) {
 
     topRatedFilms
       .slice(0, 2)
-      .forEach((film) => render(topRatedFilmsListElement, new FilmCard(film).getElement(), RENDER_POSITION.BEFOREEND));
+      .forEach((film) => renderFilm(film, topRatedFilmsListElement));
   }
 
   // Most commented
@@ -92,12 +99,10 @@ if (films.length) {
 
     mostCommentedFilms
       .slice(0, 2)
-      .forEach((film) => render(mostCommentedFilmsListElement, new FilmCard(film).getElement(), RENDER_POSITION.BEFOREEND));
+      .forEach((film) => renderFilm(film, mostCommentedFilmsListElement));
   }
 
-
   render(footerElement, new Statistic(films).getElement(), RENDER_POSITION.BEFOREEND);
-  // render(footerElement, new FilmDetails(films[0]).getElement(), `afterend`);
 } else {
   render(filmsContentElement, new NoData().getElement(), RENDER_POSITION.BEFOREEND);
 }

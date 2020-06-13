@@ -1,5 +1,6 @@
 export const RENDER_POSITION = {
   BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`,
 };
 
 export const getRandomIntegerNumber = (min, max) => {
@@ -42,6 +43,9 @@ export const render = (container, element, place) => {
   switch (place) {
     case RENDER_POSITION.BEFOREEND:
       container.append(element);
+      break;
+    case RENDER_POSITION.AFTEREND:
+      container.after(element);
       break;
   }
 };
