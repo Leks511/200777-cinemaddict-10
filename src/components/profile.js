@@ -37,7 +37,7 @@ export default class Profile {
   }
 
   getTemplate() {
-    return createProfileTemplate();
+    return createProfileTemplate(this._data);
   }
 
   getElement() {

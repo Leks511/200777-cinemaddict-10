@@ -1,3 +1,7 @@
+export const RENDER_POSITION = {
+  BEFOREEND: `beforeend`,
+};
+
 export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(max * Math.random());
 };
@@ -32,4 +36,12 @@ export const createElement = (markup) => {
   div.innerHTML = markup;
 
   return div.firstChild;
+};
+
+export const render = (container, element, place) => {
+  switch (place) {
+    case RENDER_POSITION.BEFOREEND:
+      container.append(element);
+      break;
+  }
 };
