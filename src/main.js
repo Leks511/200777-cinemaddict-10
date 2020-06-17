@@ -22,9 +22,11 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 // Массив фильмов
 const films = generateFilms(FILMS_COUNT);
 
-const headerElement = document.querySelector(`.header`);
-const mainElement = document.querySelector(`.main`);
-const footerElement = document.querySelector(`.footer`);
+const bodyElement = document.body;
+
+const headerElement = bodyElement.querySelector(`.header`);
+const mainElement = bodyElement.querySelector(`.main`);
+const footerElement = bodyElement.querySelector(`.footer`);
 
 render(headerElement, new Profile(films).getElement(), RENDER_POSITION.BEFOREEND);
 
@@ -35,10 +37,23 @@ render(mainElement, new Content().getElement(), RENDER_POSITION.BEFOREEND);
 const filmsContentElement = mainElement.querySelector(`.films`);
 
 const renderFilm = (filmData, filmsList) => {
-  const filmCard = new FilmCard(filmData).getElement();
-  const filmDetails = new FilmDetails(filmData).getElement();
+  const filmCardComponent = new FilmCard(filmData);
+  const filmDetailsComponent = new FilmDetails(filmData);
 
-  render(filmsList, filmCard, RENDER_POSITION.BEFOREEND);
+  const filmCardControlElements = filmCardComponent.getElement().querySelectorAll(`.film-card__title, .film-card__poster, .film-card__comments`);
+  const filmDetailsCloseButtonElement = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
+
+  filmCardControlElements.forEach((control) => control.addEventListener(`click`, () => {
+    bodyElement.classList.add(`hide-overflow`);
+    render(bodyElement, filmDetailsComponent.getElement(), RENDER_POSITION.BEFOREEND);
+
+    filmDetailsCloseButtonElement.addEventListener(`click`, () => {
+      bodyElement.classList.remove(`hide-overflow`);
+      filmDetailsComponent.getElement().remove();
+    });
+  }));
+
+  render(filmsList, filmCardComponent.getElement(), RENDER_POSITION.BEFOREEND);
 };
 
 if (films.length) {
