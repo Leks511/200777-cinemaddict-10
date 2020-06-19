@@ -10,7 +10,7 @@ const createMainFimsListTemplate = () => {
   );
 };
 
-export default class MainFilmsList {
+export default class MainFilmsListComponent {
   constructor() {
     this._element = null;
   }

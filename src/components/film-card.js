@@ -37,7 +37,7 @@ const createFilmCardTemplate = ({
   );
 };
 
-export default class FilmCard {
+export default class FilmCardComponent {
   constructor(data) {
     this._data = data;
     this._element = null;

@@ -10,7 +10,7 @@ const createTopRatedFilmsListTemplate = () => {
   );
 };
 
-export default class TopRatedFilmsList {
+export default class TopRatedFilmsListComponent {
   constructor() {
     this._element = null;
   }

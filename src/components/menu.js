@@ -27,7 +27,7 @@ const createMenuTemplate = (films) => {
   );
 };
 
-export default class Menu {
+export default class MenuComponent {
   constructor(data) {
     this._data = data;
     this._element = null;

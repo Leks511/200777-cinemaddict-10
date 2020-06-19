@@ -6,7 +6,7 @@ const createShowMoreButtonTemplate = () => {
   );
 };
 
-export default class ShowMoreButton {
+export default class ShowMoreButtonComponent {
   constructor() {
     this._element = null;
   }

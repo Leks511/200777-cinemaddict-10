@@ -10,7 +10,7 @@ const createStatisticTemplate = (films) => {
   );
 };
 
-export default class Statistic {
+export default class StatisticComponent {
   constructor(data) {
     this._data = data;
     this._element = null;

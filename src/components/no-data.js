@@ -8,7 +8,7 @@ const createNoDataTemplate = () => {
   );
 };
 
-export default class NoData {
+export default class NoDataComponent {
   constructor() {
     this._element = null;
   }

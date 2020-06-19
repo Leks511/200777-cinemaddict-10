@@ -1,21 +1,21 @@
 import {RENDER_POSITION, render} from "./utils";
 
-import Profile from "./components/profile";
-import Menu from "./components/menu";
-import Sort from "./components/sort";
-import Content from "./components/content";
-import MainFimsList from "./components/main-fllms-list";
-import TopRatedFilmsList from "./components/top-rated-films-list";
-import MostCommentedFilmsList from "./components/most-commented-films-list";
-import ShowMoreButton from "./components/show-more-button";
-import FilmCard from "./components/film-card";
-import Statistic from "./components/statistic";
-import NoData from "./components/no-data";
-import FilmDetails from "./components/film-details";
+import ProfileComponent from "./components/profile";
+import MenuComponent from "./components/menu";
+import SortComponent from "./components/sort";
+import ContentComponent from "./components/content";
+import MainFimsListComponent from "./components/main-fllms-list";
+import TopRatedFilmsListComponent from "./components/top-rated-films-list";
+import MostCommentedFilmsListComponent from "./components/most-commented-films-list";
+import ShowMoreButtonComponent from "./components/show-more-button";
+import FilmCardComponent from "./components/film-card";
+import StatisticComponent from "./components/statistic";
+import NoDataComponent from "./components/no-data";
+import FilmDetailsComponent from "./components/film-details";
 
 import {generateFilms} from "./mocks/film-card";
 
-const FILMS_COUNT = 11;
+const FILMS_COUNT = 0;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
@@ -28,28 +28,41 @@ const headerElement = bodyElement.querySelector(`.header`);
 const mainElement = bodyElement.querySelector(`.main`);
 const footerElement = bodyElement.querySelector(`.footer`);
 
-render(headerElement, new Profile(films).getElement(), RENDER_POSITION.BEFOREEND);
+render(headerElement, new ProfileComponent(films).getElement(), RENDER_POSITION.BEFOREEND);
 
-render(mainElement, new Menu(films).getElement(), RENDER_POSITION.BEFOREEND);
-render(mainElement, new Sort().getElement(), RENDER_POSITION.BEFOREEND);
-render(mainElement, new Content().getElement(), RENDER_POSITION.BEFOREEND);
+render(mainElement, new MenuComponent(films).getElement(), RENDER_POSITION.BEFOREEND);
+render(mainElement, new SortComponent().getElement(), RENDER_POSITION.BEFOREEND);
+render(mainElement, new ContentComponent().getElement(), RENDER_POSITION.BEFOREEND);
 
 const filmsContentElement = mainElement.querySelector(`.films`);
 
 const renderFilm = (filmData, filmsList) => {
-  const filmCardComponent = new FilmCard(filmData);
-  const filmDetailsComponent = new FilmDetails(filmData);
+  const filmCardComponent = new FilmCardComponent(filmData);
+  const filmDetailsComponent = new FilmDetailsComponent(filmData);
 
   const filmCardControlElements = filmCardComponent.getElement().querySelectorAll(`.film-card__title, .film-card__poster, .film-card__comments`);
   const filmDetailsCloseButtonElement = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
 
+  const removeFilmDetailsElement = () => {
+    bodyElement.classList.remove(`hide-overflow`);
+    filmDetailsComponent.getElement().remove();
+    document.removeEventListener(`keydown`, onEscKeydown);
+  };
+
+  const onEscKeydown = (evt) => {
+    evt.preventDefault();
+    if (evt.key === `Escape` || `Esc`) {
+      removeFilmDetailsElement();
+    }
+  };
+
   filmCardControlElements.forEach((control) => control.addEventListener(`click`, () => {
     bodyElement.classList.add(`hide-overflow`);
     render(bodyElement, filmDetailsComponent.getElement(), RENDER_POSITION.BEFOREEND);
+    document.addEventListener(`keydown`, onEscKeydown);
 
     filmDetailsCloseButtonElement.addEventListener(`click`, () => {
-      bodyElement.classList.remove(`hide-overflow`);
-      filmDetailsComponent.getElement().remove();
+      removeFilmDetailsElement();
     });
   }));
 
@@ -57,7 +70,7 @@ const renderFilm = (filmData, filmsList) => {
 };
 
 if (films.length) {
-  render(filmsContentElement, new MainFimsList().getElement(), RENDER_POSITION.BEFOREEND);
+  render(filmsContentElement, new MainFimsListComponent().getElement(), RENDER_POSITION.BEFOREEND);
 
   const mainFilmsSectionElement = filmsContentElement.querySelector(`.films-list`);
 
@@ -71,7 +84,7 @@ if (films.length) {
     .forEach((film) => renderFilm(film, mainFilmsListElement));
 
   if (films.length > SHOWING_FILMS_COUNT_BY_BUTTON) {
-    render(mainFilmsSectionElement, new ShowMoreButton().getElement(), RENDER_POSITION.BEFOREEND);
+    render(mainFilmsSectionElement, new ShowMoreButtonComponent().getElement(), RENDER_POSITION.BEFOREEND);
 
     const showMoreButton = mainFilmsSectionElement.querySelector(`.films-list__show-more`);
     showMoreButton.addEventListener(`click`, () => {
@@ -92,7 +105,7 @@ if (films.length) {
     .sort((a, b) => b.rating - a.rating);
 
   if (topRatedFilms.length) {
-    render(filmsContentElement, new TopRatedFilmsList().getElement(), RENDER_POSITION.BEFOREEND);
+    render(filmsContentElement, new TopRatedFilmsListComponent().getElement(), RENDER_POSITION.BEFOREEND);
 
     const topRatedFilmsListElement = Array.from(filmsContentElement.querySelectorAll(`h2`)).filter((element) => element.textContent === `Top rated`)[0].parentElement.querySelector(`.films-list__container`);
 
@@ -108,7 +121,7 @@ if (films.length) {
     .sort((a, b) => b.commentsCount - a.commentsCount);
 
   if (mostCommentedFilms.length) {
-    render(filmsContentElement, new MostCommentedFilmsList().getElement(), RENDER_POSITION.BEFOREEND);
+    render(filmsContentElement, new MostCommentedFilmsListComponent().getElement(), RENDER_POSITION.BEFOREEND);
 
     const mostCommentedFilmsListElement = Array.from(filmsContentElement.querySelectorAll(`h2`)).filter((element) => element.textContent === `Most commented`)[0].parentElement.querySelector(`.films-list__container`);
 
@@ -117,8 +130,8 @@ if (films.length) {
       .forEach((film) => renderFilm(film, mostCommentedFilmsListElement));
   }
 
-  render(footerElement, new Statistic(films).getElement(), RENDER_POSITION.BEFOREEND);
+  render(footerElement, new StatisticComponent(films).getElement(), RENDER_POSITION.BEFOREEND);
 } else {
-  render(filmsContentElement, new NoData().getElement(), RENDER_POSITION.BEFOREEND);
+  render(filmsContentElement, new NoDataComponent().getElement(), RENDER_POSITION.BEFOREEND);
 }
 

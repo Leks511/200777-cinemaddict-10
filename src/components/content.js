@@ -6,7 +6,7 @@ const createContentTemplate = () => {
   );
 };
 
-export default class Content {
+export default class ContentComponent {
   constructor() {
     this._element = null;
   }

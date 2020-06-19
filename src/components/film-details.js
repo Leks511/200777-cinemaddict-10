@@ -216,7 +216,7 @@ const createFilmDetailsTemplate = ({
   );
 };
 
-export default class FilmDetails {
+export default class FilmDetailsComponent {
   constructor(data) {
     this._data = data;
     this._element = null;

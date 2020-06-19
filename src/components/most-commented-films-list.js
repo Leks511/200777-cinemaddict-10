@@ -10,7 +10,7 @@ const createMostCommentedFilmsListTemplate = () => {
   );
 };
 
-export default class MostCommentedFilmsList {
+export default class MostCommentedFilmsListComponent {
   constructor() {
     this._element = null;
   }
