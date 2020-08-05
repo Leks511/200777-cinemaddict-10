@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractComponent from "./abstract-component.js";
 
 const FILM_PARAMETERS = {
   WATCHLIST: `inWatchlist`,
@@ -27,25 +27,14 @@ const createMenuTemplate = (films) => {
   );
 };
 
-export default class MenuComponent {
+export default class MenuComponent extends AbstractComponent {
   constructor(data) {
+    super();
+
     this._data = data;
-    this._element = null;
   }
 
   getTemplate() {
     return createMenuTemplate(this._data);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

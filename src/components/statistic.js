@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractComponent from "./abstract-component.js";
 
 const createStatisticTemplate = (films) => {
   const allFilmsCount = films.length;
@@ -10,21 +10,14 @@ const createStatisticTemplate = (films) => {
   );
 };
 
-export default class StatisticComponent {
+export default class StatisticComponent extends AbstractComponent {
   constructor(data) {
+    super();
+
     this._data = data;
-    this._element = null;
   }
 
   getTemplate() {
     return createStatisticTemplate(this._data);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 }
