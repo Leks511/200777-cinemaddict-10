@@ -1,11 +1,3 @@
-import {
-  getRandomIntegerNumber,
-  getRandomArrayItem,
-  getRandomDate,
-  getRandomBoolean,
-  getRandomArrayItems
-} from "../utils";
-
 const FILM_NAMES = [
   `Первый`,
   `Второй`,
@@ -67,6 +59,35 @@ const getRandomDescription = () => {
   return DESCRIPTION
     .slice()
     .split(`.`)
+    .slice(0, getRandomIntegerNumber(1, 3));
+};
+
+const getRandomIntegerNumber = (min, max) => {
+  return min + Math.floor(max * Math.random());
+};
+
+const getRandomArrayItem = (array) => {
+  const randomIndex = getRandomIntegerNumber(0, array.length);
+
+  return array[randomIndex];
+};
+
+const getRandomDate = () => {
+  const targetDate = new Date();
+  const sign = Math.random() > 0.5 ? 1 : -1;
+  const diffValue = sign * getRandomIntegerNumber(0, 7);
+
+  targetDate.setDate(targetDate.getDate() + diffValue);
+
+  return `${targetDate.getHours()}H ${targetDate.getMinutes()}m`;
+};
+
+const getRandomBoolean = () => {
+  return Math.random() > 0.5 ? true : false;
+};
+
+const getRandomArrayItems = (array) => {
+  return array
     .slice(0, getRandomIntegerNumber(1, 3));
 };
 
