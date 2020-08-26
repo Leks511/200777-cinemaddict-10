@@ -31,4 +31,4 @@ render(mainElement, pageComponent, RenderPosition.BEFOREEND);
 
 render(footerElement, new StatisticComponent(films), RenderPosition.BEFOREEND);
 
-pageController.renderFilms(films);
+pageController.render(films);
