@@ -8,6 +8,8 @@ import MostCommentedComponent from "../components/most-commented.js";
 import ShowMoreButtonComponent from "../components/show-more-button.js";
 import NoDataComponent from "../components/no-data.js";
 
+import MovieController from "../controllers/movie.js";
+
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 

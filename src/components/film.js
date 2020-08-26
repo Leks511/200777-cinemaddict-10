@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 
-const createFilmCardTemplate = ({
+const createFilmTemplate = ({
   title,
   rating,
   releaseDate,
@@ -37,7 +37,7 @@ const createFilmCardTemplate = ({
   );
 };
 
-export default class FilmCardComponent extends AbstractComponent {
+export default class FilmComponent extends AbstractComponent {
   constructor(data) {
     super();
 
@@ -45,7 +45,7 @@ export default class FilmCardComponent extends AbstractComponent {
   }
 
   getTemplate() {
-    return createFilmCardTemplate(this._data);
+    return createFilmTemplate(this._data);
   }
 
   setControlClickHandler(handler) {
