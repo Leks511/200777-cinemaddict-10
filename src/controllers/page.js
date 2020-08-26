@@ -5,8 +5,6 @@ import FilmsComponent from "../components/films.js";
 import AllMoviesComponent from "../components/all-movies.js";
 import TopRatedComponent from "../components/top-rated.js";
 import MostCommentedComponent from "../components/most-commented.js";
-import FilmCardComponent from "../components/film-card.js";
-import FilmDetailsComponent from "../components/film-details.js";
 import ShowMoreButtonComponent from "../components/show-more-button.js";
 import NoDataComponent from "../components/no-data.js";
 
@@ -18,7 +16,11 @@ const FilmPatameters = {
   COMMENTS_COUNT: `commentsCount`
 };
 
-const bodyElement = document.body;
+
+const renderFilms = (films, container) => {
+  films
+    .forEach((film) => renderFilm(film, container));
+};
 
 // Функция сортировки фильмов
 const getSortedFilms = (films, sortType, from, to) => {
@@ -38,40 +40,6 @@ const getSortedFilms = (films, sortType, from, to) => {
   }
 
   return sortedFilms.slice(from, to);
-};
-
-// Функция рендеринга фильма
-const renderFilm = (filmData, filmsList) => {
-  const filmCardComponent = new FilmCardComponent(filmData);
-  const filmDetailsComponent = new FilmDetailsComponent(filmData);
-
-  const removeFilmDetailsElement = () => {
-    bodyElement.classList.remove(`hide-overflow`);
-    filmDetailsComponent.getElement().remove();
-    document.removeEventListener(`keydown`, onEscKeydown);
-  };
-
-  const onEscKeydown = (evt) => {
-    evt.preventDefault();
-    if (evt.key === `Escape` || `Esc`) {
-      removeFilmDetailsElement();
-    }
-  };
-
-  filmCardComponent.setControlClickHandler(() => {
-    bodyElement.classList.add(`hide-overflow`);
-    render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
-    document.addEventListener(`keydown`, onEscKeydown);
-
-    filmDetailsComponent.setCloseButtonClickHandler(removeFilmDetailsElement);
-  });
-
-  render(filmsList, filmCardComponent, RenderPosition.BEFOREEND);
-};
-
-const renderFilms = (films, container) => {
-  films
-    .forEach((film) => renderFilm(film, container));
 };
 
 
