@@ -53,7 +53,9 @@ const getSortedFilms = (films, sortType, from, to) => {
 export default class PageController {
   constructor(container) {
     this._container = container;
+
     this._films = [];
+    this._showedMovieControllers = [];
 
     this._sortComponent = new SortComponent();
     this._filmsComponent = new FilmsComponent();
@@ -89,7 +91,8 @@ export default class PageController {
     const allMoviesSectionElement = this._allMoviesComponent.getElement();
     const allMoviesListElement = allMoviesSectionElement.querySelector(`.films-list__container`);
 
-    renderFilms(allMoviesListElement, films.slice(0, this._showingFilmsCount));
+    const newFilms = renderFilms(allMoviesListElement, films.slice(0, this._showingFilmsCount));
+    this._showedMovieControllers = this._showedMovieControllers.concat(newFilms);
 
     this._renderShowMoreButton();
 
@@ -98,15 +101,17 @@ export default class PageController {
   }
 
   _onSortTypeChange(sortType) {
+    this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
+
     const allMoviesSectionElement = this._allMoviesComponent.getElement();
     const allMoviesListElement = allMoviesSectionElement.querySelector(`.films-list__container`);
-
-    this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
 
     allMoviesListElement.innerHTML = ``;
 
     const sortedFilms = getSortedFilms(this._films, sortType, 0, this._showingFilmsCount);
-    renderFilms(allMoviesListElement, sortedFilms);
+
+    const newFilms = renderFilms(allMoviesListElement, sortedFilms);
+    this._showedMovieControllers = this._showedMovieControllers.concat(newFilms);
 
     this._renderShowMoreButton();
   }
@@ -124,7 +129,8 @@ export default class PageController {
 
       const extraContainer = component.getElement().querySelector(`.films-list__container`);
 
-      renderFilms(extraContainer, sortedFilms.slice(0, 2));
+      const newFilms = renderFilms(extraContainer, sortedFilms.slice(0, 2));
+      this._showedMovieControllers = this._showedMovieControllers.concat(newFilms);
     }
   }
 
