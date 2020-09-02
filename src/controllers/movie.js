@@ -13,6 +13,7 @@ export default class MovieController {
     this._filmDetailsComponent = null;
 
     this._onEscKeydown = this._onEscKeydown.bind(this);
+    this._removeFilmDetailsElement = this._removeFilmDetailsElement.bind(this);
   }
 
   render(film) {
@@ -30,7 +31,7 @@ export default class MovieController {
       this._filmDetailsComponent.setCloseButtonClickHandler(this._removeFilmDetailsElement);
     });
 
-    render(container, this._filmCardComponent, RenderPosition.BEFOREEND);
+    render(container, this._filmComponent, RenderPosition.BEFOREEND);
   }
 
   _removeFilmDetailsElement() {

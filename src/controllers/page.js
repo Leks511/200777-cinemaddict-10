@@ -71,6 +71,8 @@ export default class PageController {
 
   // Метод наполнения страницы контентом
   render(films) {
+    this._films = films;
+
     const containerElement = this._container.getElement();
     render(containerElement, this._sortComponent, RenderPosition.BEFOREEND);
     render(containerElement, this._filmsComponent, RenderPosition.BEFOREEND);
@@ -88,6 +90,7 @@ export default class PageController {
     const allMoviesListElement = allMoviesSectionElement.querySelector(`.films-list__container`);
 
     renderFilms(allMoviesListElement, films.slice(0, this._showingFilmsCount));
+
     this._renderShowMoreButton();
 
     this._renderExtra(this._topRatedComponent, FilmPatameters.RATING);
