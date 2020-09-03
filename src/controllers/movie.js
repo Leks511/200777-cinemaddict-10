@@ -31,6 +31,10 @@ export default class MovieController {
       this._filmDetailsComponent.setCloseButtonClickHandler(this._removeFilmDetailsElement);
     });
 
+    this._filmComponent.setAddToWachlistButtonClickHandler(() => {});
+    this._filmComponent.setMarkAsFavoriteButtonClickHandler(() => {});
+    this._filmComponent.setMarkAsFavoriteButtonClickHandler(() => {});
+
     render(container, this._filmComponent, RenderPosition.BEFOREEND);
   }
 
