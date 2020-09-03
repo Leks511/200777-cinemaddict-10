@@ -35,6 +35,10 @@ export default class MovieController {
     this._filmComponent.setMarkAsFavoriteButtonClickHandler(() => {});
     this._filmComponent.setMarkAsFavoriteButtonClickHandler(() => {});
 
+    this._filmDetailsComponent.setAddToWatchListControlChangeHandler(() => {});
+    this._filmDetailsComponent.setAlreadyWatchedControlChangeHandler(() => {});
+    this._filmDetailsComponent.setAddToFavoritesControlChangeHandler(() => {});
+
     render(container, this._filmComponent, RenderPosition.BEFOREEND);
   }
 

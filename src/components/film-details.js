@@ -262,4 +262,19 @@ export default class FilmDetailsComponent extends AbstractComponent {
       .querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);
   }
+
+  setAddToWatchListControlChangeHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`change`, handler);
+  }
+
+  setAlreadyWatchedControlChangeHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`change`, handler);
+  }
+
+  setAddToFavoritesControlChangeHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`change`, handler);
+  }
 }
