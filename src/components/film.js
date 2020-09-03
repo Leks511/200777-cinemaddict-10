@@ -2,31 +2,43 @@ import AbstractComponent from "./abstract-component.js";
 
 const Buttons = {
   ADD_TO_WATCHLIST: {
-    name: `Add to watchlist`,
-    class: `add-to-watchlist`
+    buttonName: `Add to watchlist`,
+    className: `add-to-watchlist`
   },
   MARK_AS_WATCHED: {
-    name: `Mark as watched`,
-    class: `mark-as-watched`
+    buttonName: `Mark as watched`,
+    className: `mark-as-watched`
   },
   MARK_AS_FAVORITE: {
-    name: `Mark as favorite`,
-    class: `mark-as-favorite`
+    buttonName: `Mark as favorite`,
+    className: `favorite`
   }
 };
 
-const createButtonMarkup = (name, isActive) => {
-  let button;
+const getNameAndClass = (buttonName) => {
+  let dataObject;
 
-  switch (name) {
-    case Buttons.ADD_TO_WATCHLIST.name:
-      button = (
-        `<button class="film-card__controls-item button film-card__controls-item--${Buttons.ADD_TO_WATCHLIST.class} ${isActive ? `film-card__controls-item--active` : ``}">${Buttons.ADD_TO_WATCHLIST.name}</button>`
-      );
+  switch (buttonName) {
+    case Buttons.ADD_TO_WATCHLIST.buttonName:
+      dataObject = Buttons.ADD_TO_WATCHLIST;
+      break;
+    case Buttons.MARK_AS_WATCHED.buttonName:
+      dataObject = Buttons.MARK_AS_WATCHED;
+      break;
+    case Buttons.MARK_AS_FAVORITE.buttonName:
+      dataObject = Buttons.MARK_AS_FAVORITE;
       break;
   }
 
-  return button;
+  return dataObject;
+};
+
+const createButtonMarkup = (name, isActive) => {
+  const {buttonName, className} = getNameAndClass(name);
+
+  return (
+    `<button class="film-card__controls-item button film-card__controls-item--${className} ${isActive ? `film-card__controls-item--active` : ``}">${buttonName}</button>`
+  );
 };
 
 const createFilmTemplate = ({
@@ -44,9 +56,9 @@ const createFilmTemplate = ({
 
   const genre = genres[0];
 
-  const addToWatchlistButton = createButtonMarkup(Buttons.ADD_TO_WATCHLIST.name, inWatchlist);
-  const markAsWatchedButton = createButtonMarkup(Buttons.MARK_AS_WATCHED.name, isWatched);
-  const markAsFavoriteButton = createButtonMarkup(Buttons.MARK_AS_FAVORITE.name, isFavorite);
+  const addToWatchlistButton = createButtonMarkup(Buttons.ADD_TO_WATCHLIST.buttonName, inWatchlist);
+  const markAsWatchedButton = createButtonMarkup(Buttons.MARK_AS_WATCHED.buttonName, isWatched);
+  const markAsFavoriteButton = createButtonMarkup(Buttons.MARK_AS_FAVORITE.buttonName, isFavorite);
 
   return (
     `<article class="film-card">
@@ -99,8 +111,7 @@ export default class FilmComponent extends AbstractComponent {
   }
 
   setMarkAsFavoriteButtonClickHandler(handler) {
-    this.getElement()
-      .querySelector(`.film-card__controls-item--mark-as-favorite`)
-      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`.film-card__controls-item--favorite`)
+    .addEventListener(`click`, handler);
   }
 }
