@@ -1,5 +1,54 @@
 import AbstractComponent from "./abstract-component.js";
 
+
+const Controls = {
+  ADD_TO_WATCHLIST: {
+    keyWord: `watchlist`,
+    controlText: `Add to watchlist`
+  },
+  ALREADY_WATCHED: {
+    keyWord: `watched`,
+    controlText: `Already watched`
+  },
+  ADD_TO_FAVORITES: {
+    keyWord: `favorite`,
+    controlText: `Add to favorites`
+  }
+};
+
+const getControlKeyWordAndName = (text) => {
+  let dataObj;
+
+  switch (text) {
+    case Controls.ADD_TO_WATCHLIST.controlText:
+      dataObj = Controls.ADD_TO_WATCHLIST;
+      break;
+    case Controls.ALREADY_WATCHED.controlText:
+      dataObj = Controls.ALREADY_WATCHED;
+      break;
+    case Controls.ADD_TO_FAVORITES.controlText:
+      dataObj = Controls.ADD_TO_FAVORITES;
+      break;
+  }
+
+  return dataObj;
+};
+
+const createControl = (text, isActive) => {
+  const {keyWord, controlText} = getControlKeyWordAndName(text);
+
+  return (
+    `<input
+      type="checkbox"
+      class="film-details__control-input visually-hidden"
+      id="${keyWord}"
+      name="${keyWord}"
+      ${isActive ? `checked` : ``}
+    >
+    <label for="${keyWord}" class="film-details__control-label film-details__control-label--${keyWord}">${controlText}</label>`
+  );
+};
+
 const generateGenresMarkup = (genres) => {
   return genres
     .map((genre) => `<span class="film-details__genre">${genre}</span>`);
@@ -25,6 +74,10 @@ const createFilmDetailsTemplate = ({
   isFavorite,
   age}) => {
   const genresMarkup = generateGenresMarkup(genres);
+
+  const addToWatchlistControl = createControl(Controls.ADD_TO_WATCHLIST.controlText, inWatchlist);
+  const alreadyWatchedControl = createControl(Controls.ALREADY_WATCHED.controlText, isWatched);
+  const addToFavoritesControl = createControl(Controls.ADD_TO_FAVORITES.controlText, isFavorite);
 
   return (
     `<section class="film-details">
@@ -92,32 +145,9 @@ const createFilmDetailsTemplate = ({
           </div>
     
           <section class="film-details__controls">
-            <input
-              type="checkbox"
-              class="film-details__control-input visually-hidden"
-              id="watchlist"
-              name="watchlist"
-              ${inWatchlist ? `checked` : ``}
-            >
-            <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-    
-            <input
-              type="checkbox"
-              class="film-details__control-input visually-hidden"
-              id="watched"
-              name="watched"
-              ${isWatched ? `checked` : ``}
-            >
-            <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-    
-            <input
-              type="checkbox"
-              class="film-details__control-input visually-hidden"
-              id="favorite"
-              name="favorite"
-              ${isFavorite ? `checked` : ``}
-            >
-            <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+            ${addToWatchlistControl}
+            ${alreadyWatchedControl}
+            ${addToFavoritesControl}
           </section>
         </div>
     
