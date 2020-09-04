@@ -6,8 +6,9 @@ import FilmDetailsComponent from "../components/film-details.js";
 const bodyElement = document.body;
 
 export default class MovieController {
-  constructor(container) {
+  constructor(container, onDataChange) {
     this._container = container;
+    this._onDataChange = onDataChange;
 
     this._filmComponent = null;
     this._filmDetailsComponent = null;
@@ -31,13 +32,53 @@ export default class MovieController {
       this._filmDetailsComponent.setCloseButtonClickHandler(this._removeFilmDetailsElement);
     });
 
-    this._filmComponent.setAddToWachlistButtonClickHandler(() => {});
-    this._filmComponent.setMarkAsFavoriteButtonClickHandler(() => {});
-    this._filmComponent.setMarkAsFavoriteButtonClickHandler(() => {});
+    this._filmComponent.setAddToWachlistButtonClickHandler((evt) => {
+      evt.preventDefault();
 
-    this._filmDetailsComponent.setAddToWatchListControlChangeHandler(() => {});
-    this._filmDetailsComponent.setAlreadyWatchedControlChangeHandler(() => {});
-    this._filmDetailsComponent.setAddToFavoritesControlChangeHandler(() => {});
+      this._onDataChange(this, film, Object.assign({}, film, {
+        inWatchlist: !film.inWatchlist
+      }));
+    });
+
+    this._filmComponent.setMarkAsWatchedButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isWatched: !film.isWatched
+      }));
+    });
+
+    this._filmComponent.setMarkAsFavoriteButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isFavorite: !film.isFavorite
+      }));
+    });
+
+    this._filmDetailsComponent.setAddToWatchListControlChangeHandler((evt) => {
+      evt.preventDefault();
+
+      this._onDataChange(this, film, Object.assign({}, film, {
+        inWatchlist: !film.inWatchlist
+      }));
+    });
+
+    this._filmDetailsComponent.setAlreadyWatchedControlChangeHandler((evt) => {
+      evt.preventDefault();
+
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isWatched: !film.isWatched
+      }));
+    });
+
+    this._filmDetailsComponent.setAddToFavoritesControlChangeHandler((evt) => {
+      evt.preventDefault();
+
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isFavorite: !film.isFavorite
+      }));
+    });
 
     render(container, this._filmComponent, RenderPosition.BEFOREEND);
   }
