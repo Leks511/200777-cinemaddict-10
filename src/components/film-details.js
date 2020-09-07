@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 
 const Controls = {
@@ -246,7 +246,7 @@ const createFilmDetailsTemplate = ({
   );
 };
 
-export default class FilmDetailsComponent extends AbstractComponent {
+export default class FilmDetailsComponent extends AbstractSmartComponent {
   constructor(data) {
     super();
 
