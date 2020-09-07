@@ -257,6 +257,10 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     return createFilmDetailsTemplate(this._data);
   }
 
+  recoveryListeners() {
+
+  }
+
   setCloseButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__close-btn`)
@@ -270,7 +274,13 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   setAlreadyWatchedControlChangeHandler(handler) {
     this.getElement().querySelector(`.film-details__control-label--watched`)
-      .addEventListener(`change`, handler);
+      .addEventListener(`change`, (evt) => {
+        evt.preventDefault();
+
+        this._alreadyWatched = !this.alreadyWatched;
+
+        handler();
+      });
   }
 
   setAddToFavoritesControlChangeHandler(handler) {
