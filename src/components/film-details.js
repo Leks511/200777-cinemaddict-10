@@ -109,8 +109,9 @@ const generateGenresMarkup = (genres) => {
     .map((genre) => `<span class="film-details__genre">${genre}</span>`);
 };
 
-const createFilmDetailsTemplate = (film) => {
-  const {title,
+const createFilmDetailsTemplate = (film, options = {}) => {
+  const {
+    title,
     originalTitle,
     rating,
     userRating,
@@ -124,18 +125,22 @@ const createFilmDetailsTemplate = (film) => {
     poster,
     description,
     commentsCount,
-    inWatchlist,
-    isWatched,
-    isFavorite,
-    age} = film;
+    age
+  } = film;
+
+  const {
+    isAddedInWatchlist,
+    isAlreadyWatched,
+    isMarkedAsFavorite
+  } = options;
 
   const genresMarkup = generateGenresMarkup(genres);
 
-  const addToWatchlistControl = createControl(Controls.ADD_TO_WATCHLIST.controlText, inWatchlist);
-  const alreadyWatchedControl = createControl(Controls.ALREADY_WATCHED.controlText, isWatched);
-  const addToFavoritesControl = createControl(Controls.ADD_TO_FAVORITES.controlText, isFavorite);
+  const addToWatchlistControl = createControl(Controls.ADD_TO_WATCHLIST.controlText, isAddedInWatchlist);
+  const alreadyWatchedControl = createControl(Controls.ALREADY_WATCHED.controlText, isAlreadyWatched);
+  const addToFavoritesControl = createControl(Controls.ADD_TO_FAVORITES.controlText, isMarkedAsFavorite);
 
-  const userRatingForm = isWatched ? createUserRatinForm({title, poster}) : ``;
+  const userRatingForm = isAlreadyWatched ? createUserRatinForm({title, poster}) : ``;
 
   return (
     `<section class="film-details">
@@ -311,11 +316,21 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     super();
 
     this._film = film;
+
+    this._isAddedInWatchlist = film.inWatchlist;
+    this._isAlreadyWatched = film.isWatched;
+    this._isMarkedAsFavorite = film.isFavorite;
+
     this._closeButtonClickHandler = null;
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film);
+    return createFilmDetailsTemplate(this._film, {
+      isAddedInWatchlist: this._isAddedInWatchlist,
+      isAlreadyWatched: this._isAlreadyWatched,
+      isMarkedAsFavorite: this._isMarkedAsFavorite,
+    });
   }
 
   recoveryListeners() {
@@ -325,7 +340,6 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
-    this.recoveryListeners();
   }
 
   setCloseButtonClickHandler(handler) {
@@ -343,6 +357,9 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
       .querySelector(`.film-details__control-label--watchlist`)
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
+
+        this._isAddedInWatchlist = !this._isAddedInWatchlist;
+        this.rerender();
       });
 
     element
@@ -358,6 +375,9 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
       .querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
+
+        this._isMarkedAsFavorite = !this._isMarkedAsFavorite;
+        this.rerender();
       });
   }
 }
