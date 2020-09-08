@@ -32,49 +32,19 @@ export default class MovieController {
       this._filmDetailsComponent.setCloseButtonClickHandler(this._removeFilmDetailsElement);
     });
 
-    this._filmComponent.setAddToWachlistButtonClickHandler((evt) => {
-      evt.preventDefault();
-
+    this._filmComponent.setAddToWachlistButtonClickHandler(() => {
       this._onDataChange(this, film, Object.assign({}, film, {
         inWatchlist: !film.inWatchlist
       }));
     });
 
-    this._filmComponent.setMarkAsWatchedButtonClickHandler((evt) => {
-      evt.preventDefault();
-
+    this._filmComponent.setMarkAsWatchedButtonClickHandler(() => {
       this._onDataChange(this, film, Object.assign({}, film, {
         isWatched: !film.isWatched
       }));
     });
 
-    this._filmComponent.setMarkAsFavoriteButtonClickHandler((evt) => {
-      evt.preventDefault();
-
-      this._onDataChange(this, film, Object.assign({}, film, {
-        isFavorite: !film.isFavorite
-      }));
-    });
-
-    this._filmDetailsComponent.setAddToWatchListControlChangeHandler((evt) => {
-      evt.preventDefault();
-
-      this._onDataChange(this, film, Object.assign({}, film, {
-        inWatchlist: !film.inWatchlist
-      }));
-    });
-
-    this._filmDetailsComponent.setAlreadyWatchedControlChangeHandler((evt) => {
-      evt.preventDefault();
-
-      this._onDataChange(this, film, Object.assign({}, film, {
-        isWatched: !film.isWatched
-      }));
-    });
-
-    this._filmDetailsComponent.setAddToFavoritesControlChangeHandler((evt) => {
-      evt.preventDefault();
-
+    this._filmComponent.setMarkAsFavoriteButtonClickHandler(() => {
       this._onDataChange(this, film, Object.assign({}, film, {
         isFavorite: !film.isFavorite
       }));
