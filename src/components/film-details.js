@@ -379,5 +379,16 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
         this._isMarkedAsFavorite = !this._isMarkedAsFavorite;
         this.rerender();
       });
+
+    const emojiPlaceElement = element.querySelector(`.film-details__add-emoji-label`);
+
+    element
+      .querySelector(`.film-details__emoji-list`)
+      .addEventListener(`click`, (evt) => {
+        if (evt.target.tagName === `IMG`) {
+          const emojiElement = `<img src="${evt.target.src}" width="55" height="55" alt="emoji">`;
+          emojiPlaceElement.innerHTML = emojiElement;
+        }
+      });
   }
 }
