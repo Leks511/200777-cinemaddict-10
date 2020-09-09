@@ -331,6 +331,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._emoji = null;
 
     this._subscribeOnEvents();
+    this._subscribeOnRatingClick();
   }
 
   getTemplate() {
@@ -359,6 +360,16 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._closeButtonClickHandler = handler;
   }
 
+  _subscribeOnRatingClick() {
+    if (this._isAlreadyWatched) {
+      const ratingControls = this.getElement().querySelector(`.film-details__user-rating-score`);
+      ratingControls
+        .addEventListener(`change`, (evt) => {
+          console.log(evt);
+        });
+    }
+  }
+
   _subscribeOnEvents() {
     const element = this.getElement();
     const emojiContainer = element.querySelector(`.film-details__add-emoji-label`);
@@ -379,7 +390,11 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
         this._isAlreadyWatched = !this._isAlreadyWatched;
         this.rerender();
+
+        // Если просмотрен, то повесить прослушку клика
+        this._subscribeOnRatingClick();
       });
+
 
     element
       .querySelector(`.film-details__control-label--favorite`)
