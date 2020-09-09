@@ -1,5 +1,9 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 
+const getEmoji = (src) => {
+  return `<img src="${src}" width="55" height="55" alt="emoji">`;
+};
+
 const createUserRatinForm = (film) => {
   const {title, poster} = film;
 
@@ -131,7 +135,8 @@ const createFilmDetailsTemplate = (film, options = {}) => {
   const {
     isAddedInWatchlist,
     isAlreadyWatched,
-    isMarkedAsFavorite
+    isMarkedAsFavorite,
+    emoji
   } = options;
 
   const genresMarkup = generateGenresMarkup(genres);
@@ -141,6 +146,7 @@ const createFilmDetailsTemplate = (film, options = {}) => {
   const addToFavoritesControl = createControl(Controls.ADD_TO_FAVORITES.controlText, isMarkedAsFavorite);
 
   const userRatingForm = isAlreadyWatched ? createUserRatinForm({title, poster}) : ``;
+  const emojiImg = emoji ? getEmoji(emoji) : ``;
 
   return (
     `<section class="film-details">
@@ -276,7 +282,7 @@ const createFilmDetailsTemplate = (film, options = {}) => {
             </ul>
     
             <div class="film-details__new-comment">
-              <div for="add-emoji" class="film-details__add-emoji-label"></div>
+              <div for="add-emoji" class="film-details__add-emoji-label">${emojiImg}</div>
     
               <label class="film-details__comment-label">
                 <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -322,6 +328,8 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._isMarkedAsFavorite = film.isFavorite;
 
     this._closeButtonClickHandler = null;
+    this._emoji = null;
+
     this._subscribeOnEvents();
   }
 
@@ -330,6 +338,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
       isAddedInWatchlist: this._isAddedInWatchlist,
       isAlreadyWatched: this._isAlreadyWatched,
       isMarkedAsFavorite: this._isMarkedAsFavorite,
+      emoji: this._emoji
     });
   }
 
@@ -352,6 +361,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   _subscribeOnEvents() {
     const element = this.getElement();
+    const emojiContainer = element.querySelector(`.film-details__add-emoji-label`);
 
     element
       .querySelector(`.film-details__control-label--watchlist`)
@@ -380,14 +390,14 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
         this.rerender();
       });
 
-    const emojiPlaceElement = element.querySelector(`.film-details__add-emoji-label`);
-
     element
       .querySelector(`.film-details__emoji-list`)
       .addEventListener(`click`, (evt) => {
         if (evt.target.tagName === `IMG`) {
-          const emojiElement = `<img src="${evt.target.src}" width="55" height="55" alt="emoji">`;
-          emojiPlaceElement.innerHTML = emojiElement;
+          const emojiSrc = evt.target.src;
+
+          this._emoji = emojiSrc;
+          emojiContainer.innerHTML = getEmoji(this._emoji);
         }
       });
   }

@@ -61,8 +61,7 @@ export default class MovieController {
 
   _onEscKeydown(evt) {
     evt.preventDefault();
-
-    if (evt.key === `Escape` || `Esc`) {
+    if (evt.keyCode === 27) {
       this._removeFilmDetailsElement();
       document.removeEventListener(`keydown`, this._onEscKeydown);
     }
