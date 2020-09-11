@@ -148,7 +148,6 @@ export default class PageController {
   }
 
   _onViewChange() {
-    console.log(`Success`)
     this._showedMovieControllers.forEach((it) => it.setDefaultView());
   }
 
