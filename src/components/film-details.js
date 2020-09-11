@@ -113,8 +113,16 @@ const createControl = (text, isActive) => {
 };
 
 const generateGenresMarkup = (genres) => {
-  return genres
-    .map((genre) => `<span class="film-details__genre">${genre}</span>`);
+  const term = genres.length > 1 ? `Genres` : `Genre`;
+  const genresList = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join(``);
+
+  return (
+    `<tr class="film-details__row">
+      <td class="film-details__term">${term}</td>
+      <td class="film-details__cell">
+        ${genresList}
+    </tr>`
+  );
 };
 
 const createFilmDetailsTemplate = (film, options = {}) => {
@@ -205,11 +213,7 @@ const createFilmDetailsTemplate = (film, options = {}) => {
                   <td class="film-details__term">Country</td>
                   <td class="film-details__cell">${country}</td>
                 </tr>
-                <tr class="film-details__row">
-                  <td class="film-details__term">Genres</td>
-                  <td class="film-details__cell">
-                    ${genresMarkup}
-                </tr>
+                ${genresMarkup}
               </table>
     
               <p class="film-details__film-description">
