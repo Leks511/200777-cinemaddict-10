@@ -371,8 +371,8 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     if (this._isAlreadyWatched) {
       const ratingControls = this.getElement().querySelector(`.film-details__user-rating-score`);
       ratingControls
-        .addEventListener(`change`, (evt) => {
-          console.log(evt);
+        .addEventListener(`change`, () => {
+
         });
     }
   }
