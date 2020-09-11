@@ -1,5 +1,9 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 
+const getUserRating = (rating) => {
+  return `<p class="film-details__user-rating">Your rate ${rating}</p>`;
+};
+
 const getEmoji = (src) => {
   return `<img src="${src}" width="55" height="55" alt="emoji">`;
 };
@@ -118,7 +122,6 @@ const createFilmDetailsTemplate = (film, options = {}) => {
     title,
     originalTitle,
     rating,
-    userRating,
     director,
     writers,
     actors,
@@ -136,7 +139,8 @@ const createFilmDetailsTemplate = (film, options = {}) => {
     isAddedInWatchlist,
     isAlreadyWatched,
     isMarkedAsFavorite,
-    emoji
+    emoji,
+    userMovieRating
   } = options;
 
   const genresMarkup = generateGenresMarkup(genres);
@@ -146,6 +150,7 @@ const createFilmDetailsTemplate = (film, options = {}) => {
   const addToFavoritesControl = createControl(Controls.ADD_TO_FAVORITES.controlText, isMarkedAsFavorite);
 
   const userRatingForm = isAlreadyWatched ? createUserRatinForm({title, poster}) : ``;
+  const userRating = isAlreadyWatched ? getUserRating(userMovieRating) : ``;
   const emojiImg = emoji ? getEmoji(emoji) : ``;
 
   return (
@@ -171,7 +176,7 @@ const createFilmDetailsTemplate = (film, options = {}) => {
     
                 <div class="film-details__rating">
                   <p class="film-details__total-rating">${rating}</p>
-                  <p class="film-details__user-rating">Your rate ${userRating}</p>
+                  ${userRating}
                 </div>
               </div>
     
@@ -326,6 +331,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._isAddedInWatchlist = film.inWatchlist;
     this._isAlreadyWatched = film.isWatched;
     this._isMarkedAsFavorite = film.isFavorite;
+    this._userMovieRating = film.userRating;
 
     this._closeButtonClickHandler = null;
     this._emoji = null;
@@ -339,7 +345,8 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
       isAddedInWatchlist: this._isAddedInWatchlist,
       isAlreadyWatched: this._isAlreadyWatched,
       isMarkedAsFavorite: this._isMarkedAsFavorite,
-      emoji: this._emoji
+      emoji: this._emoji,
+      userMovieRating: this._userMovieRating
     });
   }
 

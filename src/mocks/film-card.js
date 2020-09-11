@@ -21,7 +21,6 @@ const POSTERS = [
   `popeye-meets-sinbad.png`,
   `sagebrush-trail.jpg`,
   `santa-claus-conquers-the-martians.jpg`,
-  `the-dance-of-life.jpg`,
   `the-great-flamarion.jpg`,
   `the-man-with-the-golden-arm.jpg`,
 ];
@@ -96,7 +95,7 @@ export const generateFilm = () => {
     title: getRandomArrayItem(FILM_NAMES),
     originalTitle: getRandomArrayItem(FILM_NAMES),
     rating: getRandomIntegerNumber(0, 10),
-    userRating: getRandomIntegerNumber(0, 10),
+    userRating: getRandomIntegerNumber(0, 9),
     director: getRandomArrayItem(PERSONS),
     writers: getRandomArrayItems(PERSONS),
     actors: getRandomArrayItems(PERSONS),
