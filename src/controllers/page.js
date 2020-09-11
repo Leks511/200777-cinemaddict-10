@@ -20,7 +20,7 @@ const FilmPatameters = {
 
 
 const renderFilms = (container, films, onDataChange, onViewChange) => {
-  films
+  return films
     .map((film) => {
       const movieController = new MovieController(container, onDataChange, onViewChange);
       movieController.render(film);
@@ -148,6 +148,7 @@ export default class PageController {
   }
 
   _onViewChange() {
+    console.log(`Success`)
     this._showedMovieControllers.forEach((it) => it.setDefaultView());
   }
 

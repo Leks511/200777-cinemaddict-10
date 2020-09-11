@@ -363,6 +363,17 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     super.rerender();
   }
 
+  reset() {
+    const film = this._film;
+
+    this._isAddedInWatchlist = film.inWatchlist;
+    this._isAlreadyWatched = film.isWatched;
+    this._isMarkedAsFavorite = film.isFavorite;
+    this._userMovieRating = film.userRating;
+
+    this._emoji = null;
+  }
+
   setCloseButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__close-btn`)
