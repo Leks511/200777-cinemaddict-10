@@ -94,6 +94,7 @@ const getRandomArrayItems = (array) => {
 
 export const generateFilm = () => {
   return {
+    id: String(new Date() + Math.random()),
     title: getRandomArrayItem(FILM_NAMES),
     originalTitle: getRandomArrayItem(FILM_NAMES),
     rating: getRandomIntegerNumber(0, 10),
