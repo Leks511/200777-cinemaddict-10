@@ -7,6 +7,8 @@ import PageComponent from "./components/page.js";
 
 import PageController from "./controllers/page.js";
 
+import MoviesModel from "./models/movies.js";
+
 import {generateFilms} from "./mocks/film-card";
 
 const FILMS_COUNT = 22;
@@ -17,13 +19,15 @@ const footerElement = document.querySelector(`.footer`);
 
 // Массив фильмов
 const films = generateFilms(FILMS_COUNT);
+const moviesModel = new MoviesModel();
+moviesModel.setFilms(films);
 
 
 render(headerElement, new ProfileComponent(films), RenderPosition.BEFOREEND);
 render(mainElement, new MenuComponent(films), RenderPosition.BEFOREEND);
 
 const pageComponent = new PageComponent();
-const pageController = new PageController(pageComponent);
+const pageController = new PageController(pageComponent, moviesModel);
 
 
 render(mainElement, pageComponent, RenderPosition.BEFOREEND);
