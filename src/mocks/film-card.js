@@ -1,3 +1,5 @@
+import {formatTime, formatDate} from "../utils/common.js";
+
 const FILM_NAMES = [
   `Первый`,
   `Второй`,
@@ -99,8 +101,8 @@ export const generateFilm = () => {
     director: getRandomArrayItem(PERSONS),
     writers: getRandomArrayItems(PERSONS),
     actors: getRandomArrayItems(PERSONS),
-    releaseDate: getRandomIntegerNumber(1900, 2020),
-    duration: getRandomDate(),
+    releaseDate: formatDate(getRandomDate()),
+    duration: formatTime(getRandomDate()),
     country: getRandomArrayItem(COUNTRIES),
     genres: getRandomArrayItems(GENRES),
     poster: getRandomArrayItem(POSTERS),
