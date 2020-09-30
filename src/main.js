@@ -6,6 +6,7 @@ import MenuComponent from "./components/menu.js";
 import PageComponent from "./components/page.js";
 
 import PageController from "./controllers/page.js";
+import FilterController from "./controllers/filter.js";
 
 import MoviesModel from "./models/movies.js";
 
@@ -24,7 +25,12 @@ moviesModel.setFilms(films);
 
 
 render(headerElement, new ProfileComponent(films), RenderPosition.BEFOREEND);
-render(mainElement, new MenuComponent(films), RenderPosition.BEFOREEND);
+
+const menuComponent = new MenuComponent();
+render(mainElement, menuComponent, RenderPosition.BEFOREEND);
+
+const filterController = new FilterController(menuComponent.getElement(), moviesModel);
+filterController.render();
 
 const pageComponent = new PageComponent();
 const pageController = new PageController(pageComponent, moviesModel);

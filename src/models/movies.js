@@ -1,16 +1,20 @@
+import {FilterType, getFilmsByFilter} from "../utils/filter";
+
 export default class MoviesModel {
   constructor() {
     this._films = [];
-
-    this._dataChangeHandlers = [];
+    this._activeFilterType = FilterType.ALL;
   }
 
   setFilms(films) {
     this._films = Array.from(films);
-    this._callHandlers(this._dataChangeHandlers);
   }
 
   getFilms() {
+    return getFilmsByFilter(this._films, this._activeFilterType);
+  }
+
+  getFilmsAll() {
     return this._films;
   }
 
@@ -23,16 +27,10 @@ export default class MoviesModel {
 
     this._films = [].concat(this._films.slice(0, index), film, this._films.slice(index + 1));
 
-    this._callHandlers(this._dataChangeHandlers);
-
     return true;
   }
 
-  setDataChangeHandler(handler) {
-    this._dataChangeHandlers.push(handler);
-  }
-
-  _callHandlers(handlers) {
-    handlers.forEach((handler) => handler());
+  setFilter(filterType) {
+    this._activeFilterType = filterType;
   }
 }

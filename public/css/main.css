@@ -219,6 +219,7 @@ button {
 
 .main-navigation__item {
   color: var(--text-color);
+  text-transform: capitalize;
   margin-right: 40px;
   padding: var(--vertical-gap) 0;
 }

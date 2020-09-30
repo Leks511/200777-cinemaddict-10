@@ -1,4 +1,4 @@
-import {RenderPosition, render, replace} from "../utils/render.js";
+import {RenderPosition, render, replace, remove} from "../utils/render.js";
 
 import FilmComponent from "../components/film.js";
 import FilmDetailsComponent from "../components/film-details.js";
@@ -71,6 +71,12 @@ export default class MovieController {
     } else {
       render(container, this._filmComponent, RenderPosition.BEFOREEND);
     }
+  }
+
+  destroy() {
+    remove(this._filmComponent);
+    remove(this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._onEscKeydown);
   }
 
   _removeFilmDetailsElement() {
